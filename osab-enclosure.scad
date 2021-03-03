@@ -372,43 +372,43 @@ translate([0, 2-radius, 0]) {
   difference() {
    union() {
     // PPP button
-    /*color("red")*/
+    color("red")
       translate([center, center, thickness])
         rotate([0, 0, 135])
             triangular_button(7, 2, button_height);
 
     // Chap+ button
-    /*color("orange")*/
+    color("orange")
       translate([center+button_gap, center, thickness])
         square_button(5, 2, button_height);
 
     // Chap- button
-    /*color("orange")*/
+    color("orange")
       translate([center-button_gap, center, thickness]) 
         square_button(5, 2, button_height);
 
     // Book- button
-    /*color("brown")*/
+    color("brown")
       translate([center, center+button_gap, thickness])
         square_button(5, 2, button_height);
 
     // Book+ button
-    /*color("brown")*/
+    color("brown")
       translate([center, center-button_gap, thickness])
         square_button(5, 2, button_height);
 
     // Category button
-    /*color ("grey")*/
+    color ("grey")
       translate([center+cat_button_x, center-cat_button_y, thickness])
         round_button(4, button_height);
 
     // Vol- button
-    /*color("blue")*/
+    color("blue")
       translate([center-vol_button_x, center+vol_button_y, thickness])
         round_button(4, button_height);
 
     // Vol+ button
-    /*color("blue")*/
+    color("blue")
       translate([center+vol_button_x, center+vol_button_y, thickness])
         round_button(4, button_height);
 
@@ -430,10 +430,6 @@ translate([0, 2-radius, 0]) {
 
     strip(center-button_gap, center, center, center-button_gap, strip_width, strip_height);
     }
-    // Play LED hole
-    translate([center, center, 0 - height])
-        rotate([0, 0, 135])
-      cylinder($fn = 40, d = 1.5, h = height, center);
   }
 }
 
