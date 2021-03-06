@@ -3,7 +3,7 @@ osab-enclosure.scad - the OSAB enclosure.
 
 OSAB - the Open Source Audio Bible player.
 
-Copyright (C) 2011-2020 Theophilus (http://theaudiobible.org)
+Copyright (C) 2011-2021 Theophilus (http://theaudiobible.org)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to
 
@@ -12,27 +12,42 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FI
 */
 
+// begin outershell
+module outershell(width, length, height) {
+  union() {
+    cube([width, height, length], center=true);
+    translate([width/2, 0, 0])
+      cylinder(h = length, d = height, center=true);
+    translate([-width/2, 0, 0])
+      cylinder(h = length, d = height, center=true);
+  }
+}
+// end outershell
+
 // begin shell
-module shell(width, length, height, radius, thickness) {
-  difference() {
-    minkowski() {
-      cube([width, length, height]);
+// width, length, height for inner dims
+module shell(width, length, height, thickness) {
+  union() {
+    difference() {
+      outershell(width+thickness/2, length, height+thickness);
+      outershell(width, length+shim, height);
+    }
+    difference() {
+      union() {
+        translate([width/2, 0, 0])
+          cylinder(h = length, d = height, center=true);
+        translate([-width/2, 0, 0])
+          cylinder(h = length, d = height, center=true);
+      }
+      cube([width*1.2, height, length+shim], center=true);
       difference() {
-        translate([0, 0, radius])
-          sphere(radius);
-        translate([-radius, -radius, radius])
-          cube(2*radius);
+        outershell(width, length+shim, height);
+        translate([0, height/4, 0])
+          cube([width*2, height/2, length+shim], center=true);
       }
     }
-    minkowski() {
-      cube([width, length, height+thickness]);
-      difference() {
-        translate([0, 0, radius])
-          sphere(radius-thickness);
-        translate([-radius, -radius, radius])
-          cube(2*radius);
-      }
-    }
+    translate([0, 0, (length - thickness)/2])
+      outershell(width+thickness/2, thickness, height+thickness);
   }
 }
 // end shell
@@ -95,24 +110,6 @@ module round_button(radius, height) {
 // end round button
 
 
-// begin PCB support clip
-module clip(height=clip_height, width=clip_width, clip_thickness=clip_thickness, chin_height=clip_chin_height, chin_thickness=clip_chin_thickness, pcb_thickness=pcb_thickness) {
-  linear_extrude(height = width)
-    polygon(points = [[0, 0], [height, 0], [height, clip_thickness], [height-2, chin_thickness-0.5], [chin_height+pcb_thickness+shim, chin_thickness-0.5], [chin_height+pcb_thickness+shim, clip_thickness], [chin_height, clip_thickness], [chin_height, chin_thickness], [chin_height-1, chin_thickness], [chin_height-2, clip_thickness], [1, clip_thickness], [0, 3], [0, clip_thickness]]);
-}
-// end clip
-
-
-// begin PCB mount
-module pcb_mount(base_height, base_diameter, nipple_height, nipple_diameter) {
-  translate([0, 0, base_height/2 + thickness]) {
-    cylinder($fn=40, d=base_diameter, h=base_height, center=true);
-    translate([0, 0, base_height/2 + nipple_height/2])
-      cylinder($fn=40, d=nipple_diameter, h=nipple_height, center=true);
-  }
-}
-// end PCB mount
-
 
 // begin connecting strip
 module strip(x1, y1, x2, y2, width, height) {
@@ -132,16 +129,16 @@ $fa=0.5; // default minimum facet angle is now 0.5
 $fs=0.5; // default minimum facet size is now 0.5 mm
 
 
-pcb_width = 60;
-pcb_length = 100;
+thickness = 2;
+pcb_width = 50;
+height = 15;
+width = pcb_width;
+length = (width+height)*(1+sqrt(5))/2;
+pcb_length = length - 2*thickness;
 pcb_thickness = 1.6;
-thickness = 1.5;
 hole_depth = 8*thickness;
 shim = 0.2;
 radius = 5;
-width = pcb_width;
-length = width*(1+sqrt(5))/2;
-height = 10;
 center = width/2;
 dimple = 1.2;
 speaker_diameter = 50;
@@ -188,27 +185,25 @@ text_depth = 1;
 // begin - Front shell
 union() {
   difference() {
-      shell(thickness = thickness, radius = radius, width = width, length = length, height = height);
+      %shell(thickness = thickness, width = width, length = length, height = height);
 
       // Earphone socket hole
-      translate([width-earphone_to_pcb_right, -radius, clip_chin_height+thickness-earphone_height])
-        rotate([90, 0, 0])
+      translate([width/2, 0, length/2])
           cylinder(h=hole_depth, d=earphone_diam+3*shim, center=true);
 
       // USB-C socket hole
-      translate([width/2, -radius, clip_chin_height-shim])
-        rotate([90, 0, 0])
+      translate([0, 0, length/2])
           union() {
               rotate([90, 0, 0])cube([usb_width-usb_height+2*shim, hole_depth, usb_height], center=true);
               translate([(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
               translate([-(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
           }
 
-      // Button lock hole
-      translate([lock_to_pcb_left, 0, lock_support_height+2])
-        cube([lock_hole_width, hole_depth, lock_ext_thickness+shim], true);
+      // Button lock hole - move to bottom?
+      // translate([-width/2, 0, length/2])
+      //   cube([lock_hole_width, lock_ext_thickness+shim, hole_depth], true);
 
-      translate([0, 2-radius, 0]) {
+      rotate([-90, 0, 0]) translate([-width/2, 10-length/2, -thickness-height/2]) {
       // PPP button hole
         translate([center, center, thickness+shim])
           rotate([0, 0, 135])
@@ -243,13 +238,6 @@ union() {
             round_button(4+2*shim, button_height);
       }
 
-      // Reset hole
-      translate([47.75, 56.2, -height])
-        cylinder($fn = 40, d = pinhole_diameter, h = height, center);
-
-      // Charge LED hole
-      translate([center + 3.75,  length - 3, -height])
-        cylinder($fn = 40, d = pinhole_diameter, h = height, center);
 
       // Logo
       translate([width/4 + 2, length*3/4, 0])
@@ -258,117 +246,25 @@ union() {
             text("OSAB", size = 8, font="Stardos Stencil:style=Regular");
   }
 
-  // Dimple mates
-  translate([thickness - radius, length - height/4, height + radius - height/4 + dimple])
-    rotate([90, 0, 0])
-      cylinder($fn = 40, h = length - height/2, d = dimple);
-  translate([width + radius - thickness, length - height/4, height + radius - height/4 + dimple])
-    rotate([90, 0, 0])
-      cylinder($fn = 40, h = length - height/2, d = dimple);
-
-  // PCB mounts
-  translate([mount_hole_offset, length - mount_hole_offset - 0.4, 0])
-    pcb_mount(mount_base_height, mount_base_diameter, mount_nipple_height, mount_nipple_diameter);
-
-  translate([width - mount_hole_offset, length - mount_hole_offset - 0.4, 0])
-    pcb_mount(mount_base_height, mount_base_diameter, mount_nipple_height, mount_nipple_diameter);
-
-  // PCB clips
-  rotate([0, -90, -90])
-    translate([thickness, -clip_thickness, 0.9*pcb_length-clip_width/2])
-      clip();
-  rotate([0, -90, -90])
-    translate([thickness, -clip_thickness, 0.5*pcb_length-clip_width/2])
-      clip();
-  rotate([0, -90, -90])
-    translate([thickness, -clip_thickness, 0.1*pcb_length-clip_width/2])
-      clip();
-  rotate([0, -90, 90])
-    translate([thickness, -pcb_width-clip_thickness, -0.9*pcb_length-clip_width/2])
-      clip();
-  rotate([0, -90, 90])
-    translate([thickness, -pcb_width-clip_thickness, -0.5*pcb_length-clip_width/2])
-      clip();
-  rotate([0, -90, 90])
-    translate([thickness, -pcb_width-clip_thickness, -0.1*pcb_length-clip_width/2])
-      clip();
 
   // Button lock support
-  translate([lock_to_pcb_left, 0, thickness+lock_support_height/2])
-    union() {
-      cube([lock_support_width, lock_support_thickness, lock_support_height], true);
-      translate([0, 0, lock_support_height/2])
-        rotate([0, 90, 0])
-          cylinder($fn=40, h=lock_support_width, d=lock_support_thickness, center=true);
-  }
+  translate([width/2, height/2-thickness, 5-length/2])
+    rotate([90, 0, 0])
+      union() {
+        cube([lock_support_width, lock_support_thickness, lock_support_height], true);
+        translate([0, 0, lock_support_height/2])
+          rotate([0, 90, 0])
+            cylinder($fn=40, h=lock_support_width, d=lock_support_thickness, center=true);
+      }
 }
 // end - Front shell
 
 
-// begin - Back shell
-translate([width, 0, 2.25*height])
-  rotate([0,180,0])
-    union() {
-      difference() {
-        shell(thickness = thickness, radius = radius, width = width, length = length, height = height/4);
 
-        // Speaker holes
-        translate([center, speaker_diameter/2 + radius, thickness+0.25]) {
-          r = 3;
-          for (Q = [0:60:300]) {
-            translate([r*cos(Q), r*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter);
-          }
-          rad = 8;
-          for (Q = [0:30:330]) {
-            translate([rad*cos(Q), rad*sin(Q), -speaker_hole_height])
-              cylinder(h=speaker_hole_height, d=speaker_hole_diameter);
-            }
-          for (r = [13:5:23]) {
-            for (Q = [0:15:345]) {
-              translate([r*cos(Q), r*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter);
-            }
-          }
-        }
-      }
-      // Speaker fence
-      translate([center, speaker_diameter/2 + radius, thickness])
-        difference() {
-          cylinder(h=1, d=speaker_diameter + 2 + 2*shim);
-          translate([0, 0, -0.5])
-            cylinder(h=2, d=speaker_diameter + 2*shim);
-        }
-      // Inside lip
-      difference() {
-        shell(thickness = thickness, radius = radius - thickness, width = width, length = length, height = 2*height/3);
-        translate([-width/2, -length/2, 0])
-        cube([2*width, 2*length, height/4]);
-        // Dimples
-        translate([-radius + thickness, length, height - dimple])
-          rotate([90, 0, 0])
-            cylinder($fn = 40, h = length, d = dimple);
-        translate([width + radius - thickness, length, height - dimple])
-          rotate([90, 0, 0])
-            cylinder($fn = 40, h = length, d = dimple);
-        // Cuts in lip
-        translate([-width/2,  0, height*3/4 + shim])
-          cube([2*width, height/4, height/4]);
-        translate([-width/2, length -radius/2, height*3/4 + shim])
-          cube([2*width, height/4, height/4]);
-      }
-      // Rounding the lip
-      translate([-radius + thickness + 0.755, length - height/4, height])
-        rotate([90, 0, 0])
-          cylinder($fn = 40, h = length - height/2, d = thickness);
-      translate([width + 2*thickness - 0.255, length - height/4, height])
-        rotate([90, 0, 0])
-          cylinder($fn = 40, h = length - height/2, d = thickness);
-    }
-
-// end - Back shell
 
 
 // Buttons
-translate([0, 2-radius, 0]) {
+rotate([-90, 0, 0]) translate([-width/2, 10-length/2, -thickness-height/2]) {
   difference() {
    union() {
     // PPP button
@@ -435,44 +331,14 @@ translate([0, 2-radius, 0]) {
 
 
 // PCB
-%translate([width/2, pcb_length/2-(radius-(thickness+shim)), clip_chin_height+pcb_thickness+thickness]) {
+*translate([width/2, pcb_length/2-(radius-(thickness+shim)), clip_chin_height+pcb_thickness+thickness]) {
   rotate([0, 180, 180]) {
     import("osab.stl", convexity=10);
   }
 }
 
 
-// AA cells
-*translate([width, 50, 0])
-  rotate([0, 0, 90]) {
-    translate([width/2, width/2, 20]) {
-      rotate([90, 0, 0]) {
-        color("orange")
-          cylinder(h=49.5, d=14.5, center=true);
-            translate([0, 0, 25.25])
-              color("silver")
-                cylinder(h=1, d=5.5, center=true);
-      }
-    }
-    translate([width/2+15, width/2, 20]) {
-      rotate([270, 0, 0]) {
-        color("orange")
-          cylinder(h=49.5, d=14.5, center=true);
-            translate([0, 0, 25.25])
-              color("silver")
-                cylinder(h=1, d=5.5, center=true);
-      }
-    }
-    translate([width/2-15, width/2, 20]) {
-      rotate([270, 0, 0]) {
-        color("orange")
-          cylinder(h=49.5, d=14.5, center=true);
-    translate([0, 0, 25.25])
-      color("silver")
-        cylinder(h=1, d=5.5, center=true);
-      }
-    }
-  }
+
 
 // Speaker
 *translate([center, speaker_diameter/2 + radius, 6*height - thickness])
@@ -491,7 +357,8 @@ translate([0, 2-radius, 0]) {
 
 
 // Button lock extension
-translate([lock_to_pcb_left, 0, thickness+lock_support_thickness/2+lock_support_height])
+rotate([90, 0, 0])
+translate([width/2, 5-length/2, thickness+lock_support_height-height/2])
   difference() {
     union() {
       cube([lock_ext_width, lock_ext_depth, lock_ext_thickness], true);
@@ -506,3 +373,9 @@ translate([lock_to_pcb_left, 0, thickness+lock_support_thickness/2+lock_support_
     translate([0, 0, -lock_ext_thickness/4])
       cube([lock_support_width, lock_support_thickness+shim, lock_ext_thickness/2+shim], true);
 }
+
+
+// Lithium Battery
+color("grey")
+  translate([0, height/4, 0])
+    cube([26, 6, 46], center=true);
