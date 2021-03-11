@@ -142,7 +142,14 @@ shim = 0.2;
 radius = 5;
 center = width/2;
 dimple = 1.2;
-speaker_diameter = 30;
+speaker_top_diam = 16;
+speaker_mid_diam = 27.5;
+speaker_bot_diam = 30;
+speaker_top_ht = 1.5;
+speaker_mid_ht = 1.1;
+speaker_bot_ht = 2.4;
+speaker_hole_diameter = 2;
+speaker_hole_height = 4*thickness;
 cat_button_x = 15;
 cat_button_y = 17;
 vol_button_x = 15;
@@ -152,8 +159,6 @@ button_height = 9 - 2*switch_height - shim;
 button_gap = 14;
 strip_width = 3;
 strip_height = 1;
-speaker_hole_diameter = 2;
-speaker_hole_height = thickness+0.5;
 earphone_diam = 5;
 earphone_height = 2.3;
 earphone_to_pcb_right = 19.25;
@@ -174,7 +179,7 @@ lock_ext_thickness = 2;
 text_depth = 1;
 
 // begin - Front shell
-%union() {
+union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -230,6 +235,23 @@ text_depth = 1;
             round_button(4+2*shim, button_height);
       }
 
+      // Speaker holes
+      translate([0, -height, -length/4])
+       rotate([90, 0, 0]) {
+        r = 3;
+        for (Q = [0:60:300]) {
+          translate([r*cos(Q), r*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
+        }
+        rad = 8;
+        for (Q = [0:30:330]) {
+          translate([rad*cos(Q), rad*sin(Q), -speaker_hole_height])
+            cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
+          }
+        rd = 13;
+        for (Q = [0:15:345]) {
+          translate([rd*cos(Q), rd*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
+        }
+      }
 
       // Logo
       translate([width/4 + 2, length*3/4, 0])
@@ -334,7 +356,7 @@ translate([-width/2, -length/2, -thickness-height/2]) {
 // simPCB
 color("green")
   rotate([90, 0, 0])
-    cube([width, length, 1], center=true);
+    cube([width, length-thickness, 1], center=true);
 
 
 
@@ -343,13 +365,11 @@ color("green")
   rotate([-90, 0, 0])
     {
       %color("grey") {
-        cylinder(h=2.3, d=speaker_diameter, center=true);
-        translate([0, 0, 2.3])
-          cylinder(h=1.7, d=0.9*speaker_diameter, center=true);
-        translate([0, 0, 4])
-          cylinder(h=1, d=0.5*speaker_diameter, center=true);
-        translate([0, 0, 5])
-          cylinder(h=3, d=0.33*speaker_diameter, center=true);
+        cylinder(h=speaker_bot_ht, d=speaker_bot_diam, center=true);
+        translate([0, 0, (speaker_bot_ht+speaker_mid_ht)/2])
+          cylinder(h=speaker_mid_ht, d=speaker_mid_diam, center=true);
+        translate([0, 0, (speaker_bot_ht+speaker_mid_ht+speaker_top_ht)/2])
+          cylinder(h=speaker_top_ht, d=speaker_top_diam, center=true);
       }
     }
 
