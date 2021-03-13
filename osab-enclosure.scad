@@ -52,6 +52,26 @@ module shell(width, length, height, thickness) {
 }
 // end shell
 
+// begin speaker retainer
+module speaker_retainer() {
+  difference() {
+    union() {
+      difference() {
+        cylinder(h=speaker_bot_ht, d=speaker_bot_diam+2*thickness, center=true);
+        cylinder(h=speaker_bot_ht+shim, d=speaker_bot_diam, center=true);
+      }
+      translate([0, 0, speaker_bot_ht-shim])
+        difference() {
+          cylinder(h=thickness, d=speaker_bot_diam+2*thickness, center=true);
+          cylinder(h=thickness+shim, d=speaker_mid_diam, center=true);
+        }
+    }
+    translate([0, (speaker_bot_diam+2*thickness)/4, 0])
+      cube([speaker_bot_diam+2*thickness, (speaker_bot_diam+2*thickness)/2, 5*thickness], center=true);
+  }
+}
+// end speaker retainer
+
 // begin triangular_button
 module triangular_button_profile(side_length, corner_radius) {
   hull() {
@@ -179,7 +199,7 @@ lock_ext_thickness = 2;
 text_depth = 1;
 
 // begin - Front shell
-union() {
+#union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -236,7 +256,7 @@ union() {
       }
 
       // Speaker holes
-      translate([0, -height, -length/4])
+      translate([0, -height, -(length+thickness)/4])
        rotate([90, 0, 0]) {
         r = 3;
         for (Q = [0:60:300]) {
@@ -270,10 +290,13 @@ union() {
           rotate([0, 90, 0])
             cylinder($fn=40, h=lock_support_width, d=lock_support_thickness, center=true);
       }
+
+  // Speaker retainer
+  %translate([0, (thickness-height)/2, -(length+thickness)/4])
+    rotate([-90, 0, 0])
+      speaker_retainer();
 }
 // end - Front shell
-
-
 
 
 
@@ -354,14 +377,14 @@ translate([-width/2, -length/2, -thickness-height/2]) {
 
 
 // simPCB
-color("green")
+*color("green")
   rotate([90, 0, 0])
     cube([width, length-thickness, 1], center=true);
 
 
 
 // Speaker
-#translate([0, (thickness-height)/2, -length/4])
+translate([0, (thickness-height)/2, -(length+thickness)/4])
   rotate([-90, 0, 0])
     {
       %color("grey") {
