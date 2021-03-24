@@ -56,11 +56,12 @@ module shell(width, length, height, thickness) {
 module speaker_retainer() {
   difference() {
     union() {
+      translate([0, 0, (speaker_bot_ht-thickness)/2])
       difference() {
         cylinder(h=speaker_bot_ht, d=speaker_bot_diam+2*thickness, center=true);
         cylinder(h=speaker_bot_ht+shim, d=speaker_bot_diam, center=true);
       }
-      translate([0, 0, speaker_bot_ht-shim])
+      translate([0, 0, speaker_bot_ht])
         difference() {
           cylinder(h=thickness, d=speaker_bot_diam+2*thickness, center=true);
           cylinder(h=thickness+shim, d=speaker_mid_diam, center=true);
@@ -71,6 +72,10 @@ module speaker_retainer() {
   }
 }
 // end speaker retainer
+
+// begin speaker retainer corner
+
+// end speaker retainer corner
 
 // begin triangular_button
 module triangular_button_profile(side_length, corner_radius) {
@@ -199,7 +204,7 @@ lock_ext_thickness = 2;
 text_depth = 1;
 
 // begin - Front shell
-#union() {
+%union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -262,12 +267,12 @@ text_depth = 1;
         for (Q = [0:60:300]) {
           translate([r*cos(Q), r*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
         }
-        rad = 8;
-        for (Q = [0:30:330]) {
+        rad = 7.5;
+        for (Q = [0:20:340]) {
           translate([rad*cos(Q), rad*sin(Q), -speaker_hole_height])
             cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
           }
-        rd = 13;
+        rd = 12;
         for (Q = [0:15:345]) {
           translate([rd*cos(Q), rd*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
         }
@@ -292,11 +297,20 @@ text_depth = 1;
       }
 
   // Speaker retainer
-  %translate([0, (thickness-height)/2, -(length+thickness)/4])
+  translate([0, (thickness-height)/2, -(length+thickness)/4])
     rotate([-90, 0, 0])
       speaker_retainer();
 }
 // end - Front shell
+
+
+// Plug
+translate([0, 0, thickness-length/2])
+  outershell(width, 2*thickness, height);
+translate([0, (thickness-height)/2, -(length+thickness)/4])
+  rotate([-90, 180, 0])
+    speaker_retainer();
+
 
 
 
@@ -377,7 +391,7 @@ translate([-width/2, -length/2, -thickness-height/2]) {
 
 
 // simPCB
-*color("green")
+color("green")
   rotate([90, 0, 0])
     cube([width, length-thickness, 1], center=true);
 
