@@ -144,9 +144,8 @@ module strip(x1, y1, x2, y2, width, height) {
   h = sqrt(o*o + a*a);
   sinq = o/h;
   cosq = a/h;
-  translate([0, 0, button_height - height/2 - thickness + shim/2])
-    linear_extrude(height = height, center = true)
-      polygon(points = [[x1 - sinq*width/2, y1 + cosq*width/2], [x2 - sinq*width/2, y2 + cosq*width/2], [x2 + sinq*width/2, y2 - cosq*width/2], [x1 + sinq*width/2, y1 - cosq*width/2]]);
+  linear_extrude(height = height, center = true)
+    polygon(points = [[x1 - sinq*width/2, y1 + cosq*width/2], [x2 - sinq*width/2, y2 + cosq*width/2], [x2 + sinq*width/2, y2 - cosq*width/2], [x1 + sinq*width/2, y1 - cosq*width/2]]);
 }
 // end connecting strip
 
@@ -180,7 +179,8 @@ cat_button_y = 17;
 vol_button_x = 15;
 vol_button_y = 17;
 switch_height = 1.5;
-button_height = 9 - 2*switch_height - shim;
+//button_height = 9 - 2*switch_height - shim;
+button_height = 4;
 button_gap = 14;
 strip_width = 3;
 strip_height = 1;
@@ -225,7 +225,7 @@ text_depth = 1;
       //   cube([lock_hole_width, lock_ext_thickness+shim, hole_depth], true);
 
       rotate([-90, 0, 0])
-      translate([-width/2, -length/2, -thickness-height/2]) {
+      translate([-width/2, -length/3, -thickness-height/2]) {
       // PPP button hole
         translate([center, center, thickness+shim])
           rotate([0, 0, 0])
@@ -261,7 +261,7 @@ text_depth = 1;
       }
 
       // Speaker holes
-      translate([0, -height, -(length+thickness)/4])
+      translate([0, 0, -(length+thickness)/4])
        rotate([90, 0, 0]) {
         r = 3;
         for (Q = [0:60:300]) {
@@ -297,18 +297,19 @@ text_depth = 1;
       }
 
   // Speaker retainer
-  translate([0, (thickness-height)/2, -(length+thickness)/4])
-    rotate([-90, 0, 0])
+  translate([0, (height-thickness)/2, -(length+thickness)/4])
+    rotate([-90, 0, 180])
       speaker_retainer();
 }
 // end - Front shell
 
 
+
 // Plug
 translate([0, 0, thickness-length/2])
   outershell(width, 2*thickness, height);
-translate([0, (thickness-height)/2, -(length+thickness)/4])
-  rotate([-90, 180, 0])
+translate([0, (height-thickness)/2, -(length+thickness)/4])
+  rotate([90, 0, 0])
     speaker_retainer();
 
 
@@ -316,9 +317,7 @@ translate([0, (thickness-height)/2, -(length+thickness)/4])
 
 // Buttons
 rotate([-90, 0, 0])
-translate([-width/2, -length/2, -thickness-height/2]) {
-  difference() {
-   union() {
+translate([-width/2, -length/3, -thickness-height/2]) {
     // PPP button
     color("red")
       translate([center, center, thickness])
@@ -360,25 +359,25 @@ translate([-width/2, -length/2, -thickness-height/2]) {
       translate([center+vol_button_x, center+vol_button_y, thickness])
         round_button(4, button_height);
 
-    strip(center, center, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
+    translate([0, 0, button_height-strip_height/2]) {
+      strip(center, center, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
 
-    strip(center, center, center-vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center, center, center-vol_button_x, center+vol_button_y, strip_width, strip_height);
 
-    strip(center, center, center+cat_button_x, center-cat_button_y, strip_width, strip_height);
+      strip(center, center, center+cat_button_x, center-cat_button_y, strip_width, strip_height);
 
-    strip(center, center+button_gap, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center, center+button_gap, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
 
-    strip(center, center+button_gap, center-vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center, center+button_gap, center-vol_button_x, center+vol_button_y, strip_width, strip_height);
 
-    strip(center+button_gap, center, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center+button_gap, center, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
 
-    strip(center+button_gap, center,center+cat_button_x, center-cat_button_y, strip_width, strip_height);
+      strip(center+button_gap, center,center+cat_button_x, center-cat_button_y, strip_width, strip_height);
 
-    strip(center-vol_button_x, center+vol_button_y, center-button_gap, center, strip_width, strip_height);
+      strip(center-vol_button_x, center+vol_button_y, center-button_gap, center, strip_width, strip_height);
 
-    strip(center-button_gap, center, center, center-button_gap, strip_width, strip_height);
+      strip(center-button_gap, center, center, center-button_gap, strip_width, strip_height);
     }
-  }
 }
 
 
@@ -398,8 +397,8 @@ color("green")
 
 
 // Speaker
-translate([0, (thickness-height)/2, -(length+thickness)/4])
-  rotate([-90, 0, 0])
+translate([0, (height-thickness)/2, -(length+thickness)/4])
+  rotate([90, 0, 0])
     {
       %color("grey") {
         cylinder(h=speaker_bot_ht, d=speaker_bot_diam, center=true);
@@ -432,5 +431,5 @@ translate([(width-height-thickness)/2, lock_ext_depth-length/2, thickness+lock_s
 
 // Lithium Battery
 color("grey")
-  translate([0, height/4, length/6])
-    cube([26, 6, 46], center=true);
+  translate([0, height/4, length/5])
+    cube([38, 6, 25], center=true);
