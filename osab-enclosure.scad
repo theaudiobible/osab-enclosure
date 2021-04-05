@@ -204,7 +204,7 @@ lock_ext_thickness = 2;
 text_depth = 1;
 
 // begin - Front shell
-%union() {
+union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -287,8 +287,8 @@ text_depth = 1;
 
 
   // Button lock support
-  translate([(width-height-thickness)/2, height/2-thickness, lock_ext_depth-length/2])
-    rotate([90, 0, 0])
+  translate([(width-height-thickness)/2, thickness-height/2, lock_ext_depth-length/2])
+    rotate([90, 0, 180])
       union() {
         cube([lock_support_width, lock_support_thickness, lock_support_height], true);
         translate([0, 0, lock_support_height/2])
@@ -306,7 +306,7 @@ text_depth = 1;
 
 
 // Plug
-translate([0, 0, thickness-length/2])
+*translate([0, 0, thickness-length/2])
   outershell(width, 2*thickness, height);
 translate([0, (height-thickness)/2, -(length+thickness)/4])
   rotate([90, 0, 0])
@@ -389,30 +389,9 @@ translate([-width/2, -length/3, -thickness-height/2]) {
 }
 
 
-// simPCB
-color("green")
-  rotate([90, 0, 0])
-    cube([width, length-thickness, 1], center=true);
-
-
-
-// Speaker
-translate([0, (height-thickness)/2, -(length+thickness)/4])
-  rotate([90, 0, 0])
-    {
-      %color("grey") {
-        cylinder(h=speaker_bot_ht, d=speaker_bot_diam, center=true);
-        translate([0, 0, (speaker_bot_ht+speaker_mid_ht)/2])
-          cylinder(h=speaker_mid_ht, d=speaker_mid_diam, center=true);
-        translate([0, 0, (speaker_bot_ht+speaker_mid_ht+speaker_top_ht)/2])
-          cylinder(h=speaker_top_ht, d=speaker_top_diam, center=true);
-      }
-    }
-
-
 // Button lock extension
-rotate([90, 0, 0])
-translate([(width-height-thickness)/2, lock_ext_depth-length/2, thickness+lock_support_height-height/2])
+rotate([90, 0, 180])
+translate([-(width-height-thickness)/2, lock_ext_depth-length/2, thickness+lock_support_height-height/2])
   difference() {
     union() {
       cube([lock_ext_width, lock_ext_depth, lock_ext_thickness], true);
@@ -433,3 +412,42 @@ translate([(width-height-thickness)/2, lock_ext_depth-length/2, thickness+lock_s
 color("grey")
   translate([0, height/4, length/5])
     cube([38, 6, 25], center=true);
+
+
+// simPCB
+color("green")
+  rotate([90, 0, 0])
+    cube([width, length-thickness, 1], center=true);
+
+
+// simCardHolder
+holder_width = 15.35;
+holder_length = 14.5;
+holder_height = 2.45;
+card_width = 11.05;
+card_length = 2.65;
+card_height = 1.00;
+translate([(height-width)/3, -holder_height/2, card_length/2+shim-length/2.5]) {
+  rotate([90, 180, 0]) {
+    color("grey")
+      cube([holder_width, holder_length, holder_height], center=true);
+      color("red")
+        translate([0, holder_length/2, 0])
+          cube([card_width, card_length, card_height], center=true);
+  }
+}
+
+
+// Speaker
+translate([0, (height-thickness)/2, -(length+thickness)/4])
+  rotate([90, 0, 0])
+    {
+      %color("grey") {
+        cylinder(h=speaker_bot_ht, d=speaker_bot_diam, center=true);
+        translate([0, 0, (speaker_bot_ht+speaker_mid_ht)/2])
+          cylinder(h=speaker_mid_ht, d=speaker_mid_diam, center=true);
+        translate([0, 0, (speaker_bot_ht+speaker_mid_ht+speaker_top_ht)/2])
+          cylinder(h=speaker_top_ht, d=speaker_top_diam, center=true);
+      }
+    }
+
