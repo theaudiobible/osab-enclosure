@@ -43,7 +43,9 @@ module shell(width, length, height, thickness) {
       difference() {
         outershell(width, length+shim, height);
         translate([0, height/4, 0])
-          cube([width*2, height/2, length+shim], center=true);
+          cube([width*2, height/2-pcb_thickness, length+shim], center=true);
+        translate([0, -height/4, 0])
+          cube([width*2, height/2-pcb_thickness, length+shim], center=true);
       }
     }
     translate([0, 0, (length - thickness)/2])
@@ -160,7 +162,7 @@ height = 12;
 width = pcb_width;
 length = width*(1+sqrt(5))/2;
 pcb_length = length - 2*thickness;
-pcb_thickness = 1.6;
+pcb_thickness = 1.0;
 hole_depth = 8*thickness;
 shim = 0.2;
 radius = 5;
@@ -197,7 +199,7 @@ lock_lever_depth = 1.5;
 lock_lever_width = 1.3;
 lock_support_width = 10;
 lock_support_thickness = 1;
-lock_support_height = 4.5 - lock_lever_altitude - lock_support_thickness - shim;
+lock_support_height = height/2 - thickness;
 lock_ext_width = lock_support_width*2/3;
 lock_ext_depth = 7;
 lock_ext_thickness = 2;
@@ -287,14 +289,20 @@ union() {
 
 
   // Button lock support
-  translate([(width-height-thickness)/2, thickness-height/2, lock_ext_depth-length/2])
-    rotate([90, 0, 180])
-      union() {
-        cube([lock_support_width, lock_support_thickness, lock_support_height], true);
-        translate([0, 0, lock_support_height/2])
-          rotate([0, 90, 0])
-            cylinder($fn=40, h=lock_support_width, d=lock_support_thickness, center=true);
-      }
+  difference() {
+    translate([(width-height-thickness/2)/2, thickness-height/2, lock_ext_depth-length/2])
+      rotate([90, 0, 180])
+          union() {
+            cube([lock_support_width, lock_support_thickness, lock_support_height], true);
+            translate([0, 0, lock_support_height/2])
+              rotate([0, 90, 0])
+                cylinder($fn=40, h=lock_support_width, d=lock_support_thickness, center=true);
+          }
+    difference() {
+      outershell(width+5*thickness, length, height+5*thickness);
+      outershell(width, length+shim, height);
+    }
+  }
 
   // Speaker retainer
   translate([0, (height-thickness)/2, -(length+thickness)/4])
@@ -391,7 +399,7 @@ translate([-width/2, -length/3, -thickness-height/2]) {
 
 // Button lock extension
 rotate([90, 0, 180])
-translate([-(width-height-thickness)/2, lock_ext_depth-length/2, thickness+lock_support_height-height/2])
+translate([-(width-height+thickness+2*shim)/2, lock_ext_depth-length/2, pcb_thickness/2-lock_ext_thickness])
   difference() {
     union() {
       cube([lock_ext_width, lock_ext_depth, lock_ext_thickness], true);
@@ -417,7 +425,7 @@ color("grey")
 // simPCB
 color("green")
   rotate([90, 0, 0])
-    cube([width, length-thickness, 1], center=true);
+    cube([width, length-thickness, pcb_thickness], center=true);
 
 
 // simCardHolder
@@ -432,7 +440,7 @@ translate([(height-width)/3, -holder_height/2, card_length/2+shim-length/2.5]) {
     color("grey")
       cube([holder_width, holder_length, holder_height], center=true);
       color("red")
-        translate([0, holder_length/2, 0])
+        translate([1.5, holder_length/2, 0.5])
           cube([card_width, card_length, card_height], center=true);
   }
 }
