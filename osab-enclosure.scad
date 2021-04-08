@@ -201,12 +201,12 @@ lock_support_width = 10;
 lock_support_thickness = 1;
 lock_support_height = height/2 - thickness;
 lock_ext_width = lock_support_width*2/3;
-lock_ext_depth = 7;
+lock_ext_depth = 4*thickness;
 lock_ext_thickness = 2;
 text_depth = 1;
 
 // begin - Front shell
-union() {
+*union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -314,12 +314,17 @@ union() {
 
 
 // Plug
-*translate([0, 0, thickness-length/2])
-  outershell(width, 2*thickness, height);
-translate([0, (height-thickness)/2, -(length+thickness)/4])
-  rotate([90, 0, 0])
-    speaker_retainer();
-
+#union() {
+  translate([0, 0, thickness-length/2])
+    difference() {
+      outershell(width, 2*thickness, height);
+      translate([0, 0, -thickness])
+        outershell(width-thickness, 2*thickness, height-thickness);
+    }
+  translate([0, (height-thickness)/2, -(length+thickness)/4])
+    rotate([90, 0, 0])
+      speaker_retainer();
+}
 
 
 
@@ -425,7 +430,7 @@ color("grey")
 // simPCB
 color("green")
   rotate([90, 0, 0])
-    cube([width, length-thickness, pcb_thickness], center=true);
+    cube([width, pcb_length, pcb_thickness], center=true);
 
 
 // simCardHolder
