@@ -202,7 +202,7 @@ lock_support_thickness = 1;
 lock_support_height = height/2 - thickness;
 lock_ext_width = lock_support_width*2/3;
 lock_ext_depth = 4*thickness;
-lock_ext_thickness = 2;
+lock_ext_thickness = 3;
 text_depth = 1;
 
 // begin - Front shell
@@ -221,10 +221,6 @@ text_depth = 1;
               translate([(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
               translate([-(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
           }
-
-      // Button lock hole - move to bottom?
-      // translate([-width/2, 0, length/2])
-      //   cube([lock_hole_width, lock_ext_thickness+shim, hole_depth], true);
 
       rotate([-90, 0, 0])
       translate([-width/2, -length/3, -thickness-height/2]) {
@@ -290,7 +286,7 @@ text_depth = 1;
 
   // Button lock support
   difference() {
-    translate([(width-height-thickness/2)/2, thickness-height/2, lock_ext_depth-length/2])
+    translate([(width-height-thickness/2)/2, thickness-height/2, 8-length/2])
       rotate([90, 0, 180])
           union() {
             cube([lock_support_width, lock_support_thickness, lock_support_height], true);
@@ -310,21 +306,6 @@ text_depth = 1;
       speaker_retainer();
 }
 // end - Front shell
-
-
-
-// Plug
-#union() {
-  translate([0, 0, thickness-length/2])
-    difference() {
-      outershell(width, 2*thickness, height);
-      translate([0, 0, -thickness])
-        outershell(width-thickness, 2*thickness, height-thickness);
-    }
-  translate([0, (height-thickness)/2, -(length+thickness)/4])
-    rotate([90, 0, 0])
-      speaker_retainer();
-}
 
 
 
@@ -404,13 +385,13 @@ translate([-width/2, -length/3, -thickness-height/2]) {
 
 // Button lock extension
 rotate([90, 0, 180])
-translate([-(width-height+thickness+2*shim)/2, lock_ext_depth-length/2, pcb_thickness/2-lock_ext_thickness])
+translate([1-(width-height)/2, lock_ext_depth-length/2, pcb_thickness/2-lock_ext_thickness])
   difference() {
     union() {
       cube([lock_ext_width, lock_ext_depth, lock_ext_thickness], true);
       translate([0, -radius/sqrt(2), 0])
         minkowski() {
-          cube([1, radius, lock_ext_thickness/2], true);
+          cube([1, 8, lock_ext_thickness/2], true);
           cylinder(h=1, d=1, center=true);
         }
     }
@@ -440,14 +421,37 @@ holder_height = 2.45;
 card_width = 11.05;
 card_length = 2.65;
 card_height = 1.00;
-translate([(height-width)/3, -holder_height/2, card_length/2+shim-length/2.5]) {
+translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
   rotate([90, 180, 0]) {
     color("grey")
       cube([holder_width, holder_length, holder_height], center=true);
       color("red")
-        translate([1.5, holder_length/2, 0.5])
+        translate([1.5, holder_length/2, card_height/2])
           cube([card_width, card_length, card_height], center=true);
   }
+}
+
+
+// Plug
+#difference() {
+  union() {
+    translate([0, 0, thickness-length/2])
+      difference() {
+        outershell(width, 2*thickness, height);
+        translate([0, 0, -thickness])
+          outershell(width-thickness, 2*thickness, height-thickness);
+      }
+    translate([0, (height-thickness)/2, -(length+thickness)/4])
+      rotate([90, 0, 0])
+        speaker_retainer();
+  }
+  // Card slot
+  translate([-20.2, (holder_height-card_height-height/2)/2, 1.2-length/2])
+    cube([card_width*1.1, card_height*1.1, card_length*1.1]);
+  // Button lock hole
+  translate([(width-height)/2-2.1, -2.5, -length/2])
+    cube([lock_hole_width, lock_ext_thickness, hole_depth], true);
+
 }
 
 
