@@ -32,12 +32,13 @@ module shell(width, length, height, thickness) {
       outershell(width+thickness, length, height+thickness);
       outershell(width, length+shim, height);
     }
+    // PCB support
     difference() {
       union() {
-        translate([(width-height)/2, 0, 0])
-          cylinder(h = length, d = height, center=true);
-        translate([-(width-height)/2, 0, 0])
-          cylinder(h = length, d = height, center=true);
+        translate([(width-height)/2, 0, thickness/2])
+          cylinder(h = length-3*thickness, d = height, center=true);
+        translate([-(width-height)/2, 0, thickness/2])
+          cylinder(h = length-3*thickness, d = height, center=true);
       }
       cube([(width-3), height, length+shim], center=true);
       difference() {
@@ -210,7 +211,7 @@ text_depth = 1;
 groove_diam = 1.5;
 
 // begin - Front shell
-%union() {
+union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -441,7 +442,7 @@ translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
 
 
 // Plug
-*difference() {
+difference() {
   union() {
     translate([0, 0, thickness-length/2])
       difference() {
@@ -457,7 +458,7 @@ translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
   translate([-20.2, (holder_height-card_height-height/2)/2, 1.2-length/2])
     cube([card_width*1.1, card_height*1.1, card_length*1.1]);
   // Button lock hole
-  translate([(width-height)/2-2.1, -2.5, -length/2])
+  translate([(width-height)/2-2.1, pcb_thickness-lock_ext_thickness, -length/2])
     cube([lock_hole_width, lock_ext_thickness, hole_depth], true);
   groove(groove_diam);
 }
