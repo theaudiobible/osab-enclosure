@@ -12,7 +12,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FI
 */
 
-// begin outershell
+// Outershell
 module outershell(width, length, height) {
   union() {
     cube([width-height, height, length], center=true);
@@ -22,9 +22,9 @@ module outershell(width, length, height) {
       cylinder(h = length, d = height, center=true);
   }
 }
-// end outershell
 
-// begin shell
+
+// Shell
 // width, length, height for inner dims
 module shell(width, length, height, thickness) {
   union() {
@@ -52,9 +52,9 @@ module shell(width, length, height, thickness) {
       outershell(width+thickness/2, thickness, height+thickness);
   }
 }
-// end shell
 
-// begin speaker retainer
+
+// Speaker retainer
 module speaker_retainer() {
   difference() {
     union() {
@@ -73,13 +73,9 @@ module speaker_retainer() {
       cube([speaker_bot_diam+2*thickness, (speaker_bot_diam+2*thickness)/2, 5*thickness], center=true);
   }
 }
-// end speaker retainer
 
-// begin speaker retainer corner
 
-// end speaker retainer corner
-
-// begin triangular_button
+// Triangular_button
 module triangular_button_profile(side_length, corner_radius) {
   hull() {
     a = sqrt(3)/4*side_length;
@@ -99,10 +95,9 @@ module triangular_button(side_length, corner_radius, height) {
     linear_extrude(height=height/2, center=true, convexity=10, twist=0, scale=1)
     triangular_button_profile(side_length+1, corner_radius);
 }
-// end triangular_button
 
 
-// begin square button
+// Square button
 module square_button_profile(side_length, corner_radius) {
   hull() {
     translate([-side_length/2, -side_length/2, 0])
@@ -123,9 +118,9 @@ module square_button(side_length, corner_radius, height) {
     linear_extrude(height=height/2, center=true, convexity=10, twist=0, scale=1)
       square_button_profile(side_length+1, corner_radius);
 }
-// end square button
 
-// begin round button
+
+// Round button
 module round_button(radius, height) {
   union() {
     translate([0, 0, -height/4])
@@ -135,11 +130,20 @@ module round_button(radius, height) {
         circle(r=radius+0.5);
   }
 }
-// end round button
 
 
+// Plug grooves
+module groove(diam) {
+  translate([0, height/2, thickness-length/2])
+  rotate([0, 90, 0])
+  cylinder($fn=40, h=width-height, d=diam, center=true);
+  translate([0, -height/2, thickness-length/2])
+  rotate([0, 90, 0])
+  cylinder($fn=40, h=width-height, d=diam, center=true);
+}
 
-// begin connecting strip
+
+// Connecting strip
 module strip(x1, y1, x2, y2, width, height) {
   a = x2 - x1;
   o = y2 - y1;
@@ -149,7 +153,6 @@ module strip(x1, y1, x2, y2, width, height) {
   linear_extrude(height = height, center = true)
     polygon(points = [[x1 - sinq*width/2, y1 + cosq*width/2], [x2 - sinq*width/2, y2 + cosq*width/2], [x2 + sinq*width/2, y2 - cosq*width/2], [x1 + sinq*width/2, y1 - cosq*width/2]]);
 }
-// end connecting strip
 
 
 $fa=0.5; // default minimum facet angle is now 0.5
@@ -161,7 +164,7 @@ pcb_width = 50;
 height = 12;
 width = pcb_width;
 length = width*(1+sqrt(5))/2;
-pcb_length = length - 2*thickness;
+pcb_length = length - 3*thickness;
 pcb_thickness = 1.0;
 hole_depth = 8*thickness;
 shim = 0.2;
@@ -197,16 +200,17 @@ lock_hole_width = 2.15+2;
 lock_lever_altitude = 0.4;
 lock_lever_depth = 1.5;
 lock_lever_width = 1.3;
-lock_support_width = 10;
-lock_support_thickness = 1;
-lock_support_height = height/2 - thickness;
-lock_ext_width = lock_support_width*2/3;
 lock_ext_depth = 4*thickness;
 lock_ext_thickness = 3;
+lock_ext_width = 7;
+lock_support_width = 15;
+lock_support_thickness = 1;
+lock_support_height = height/2 - pcb_thickness/2 - lock_ext_thickness/2 - lock_support_thickness;
 text_depth = 1;
+groove_diam = 1.5;
 
 // begin - Front shell
-*union() {
+%union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -304,6 +308,9 @@ text_depth = 1;
   translate([0, (height-thickness)/2, -(length+thickness)/4])
     rotate([-90, 0, 180])
       speaker_retainer();
+
+  // Groove mates
+  groove(groove_diam);
 }
 // end - Front shell
 
@@ -385,7 +392,7 @@ translate([-width/2, -length/3, -thickness-height/2]) {
 
 // Button lock extension
 rotate([90, 0, 180])
-translate([1-(width-height)/2, lock_ext_depth-length/2, pcb_thickness/2-lock_ext_thickness])
+translate([1-(width-height)/2, lock_ext_depth-length/2, pcb_thickness-lock_ext_thickness])
   difference() {
     union() {
       cube([lock_ext_width, lock_ext_depth, lock_ext_thickness], true);
@@ -410,8 +417,9 @@ color("grey")
 
 // simPCB
 color("green")
-  rotate([90, 0, 0])
-    cube([width, pcb_length, pcb_thickness], center=true);
+  translate([0, 0, thickness/2])
+    rotate([90, 0, 0])
+      cube([width, pcb_length, pcb_thickness], center=true);
 
 
 // simCardHolder
@@ -433,7 +441,7 @@ translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
 
 
 // Plug
-#difference() {
+*difference() {
   union() {
     translate([0, 0, thickness-length/2])
       difference() {
@@ -451,7 +459,7 @@ translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
   // Button lock hole
   translate([(width-height)/2-2.1, -2.5, -length/2])
     cube([lock_hole_width, lock_ext_thickness, hole_depth], true);
-
+  groove(groove_diam);
 }
 
 
