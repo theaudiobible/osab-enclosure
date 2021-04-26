@@ -29,7 +29,7 @@ module outershell(width, length, height) {
 module shell(width, length, height, thickness) {
   union() {
     difference() {
-      outershell(width+thickness, length, height+thickness);
+      outershell(width+2*thickness, length, height+2*thickness);
       outershell(width, length+shim, height);
     }
     // PCB support
@@ -448,7 +448,7 @@ difference() {
       difference() {
         outershell(width, 2*thickness, height);
         translate([0, 0, -thickness])
-          outershell(width-thickness, 2*thickness, height-thickness);
+          outershell(width-2*thickness, 2*thickness, height-2*thickness);
       }
     translate([0, (height-thickness)/2, -(length+thickness)/4])
       rotate([90, 0, 0])
