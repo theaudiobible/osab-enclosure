@@ -209,6 +209,12 @@ lock_support_thickness = 1;
 lock_support_height = height/2 - pcb_thickness/2 - lock_ext_thickness/2 - lock_support_thickness;
 text_depth = 1;
 groove_diam = 1.5;
+holder_width = 15.35;
+holder_length = 14.5;
+holder_height = 2.45;
+card_width = 11.05;
+card_length = 2.65;
+card_height = 1.00;
 
 // begin - Front shell
 union() {
@@ -424,12 +430,6 @@ color("green")
 
 
 // simCardHolder
-holder_width = 15.35;
-holder_length = 14.5;
-holder_height = 2.45;
-card_width = 11.05;
-card_length = 2.65;
-card_height = 1.00;
 translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
   rotate([90, 180, 0]) {
     color("grey")
