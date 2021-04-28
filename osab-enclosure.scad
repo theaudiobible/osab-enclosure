@@ -457,7 +457,11 @@ difference() {
       }
     translate([0, (height-thickness)/2, -(length+thickness)/4])
       rotate([90, 0, 0])
-        speaker_retainer();
+        difference() {
+          speaker_retainer();
+          translate([0, thickness-2*height, 0])
+            cube([width, height, height], center=true);
+        }
   }
   // Card slot
   translate([-20.2, (holder_height-card_height-height/2)/2, 1.2-length/2])
