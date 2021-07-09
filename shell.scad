@@ -12,8 +12,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+
 use <shell-modules.scad>;
+use <button-modules.scad>;
 include <vars.scad>;
+
 
 union() {
   difference() {
@@ -36,35 +39,35 @@ union() {
       // PPP button hole
         translate([center, center, thickness+shim])
           rotate([0, 0, 0])
-            triangular_button(7+5*shim, 2, button_height);
+            triangular_button(7+5*shim, 2, button_height+4*shim);
 
       // Chap+ button
         translate([center+button_gap, center, thickness+shim])
-          square_button(5+4*shim, 2, button_height);
+          square_button(5+4*shim, 2, button_height+4*shim);
 
       // Chap- button
         translate([center-button_gap, center, thickness+shim])
-          square_button(5+4*shim, 2, button_height);
+          square_button(5+4*shim, 2, button_height+4*shim);
 
       // Book- button
         translate([center, center+button_gap, thickness+shim])
-          square_button(5+4*shim, 2, button_height);
+          square_button(5+4*shim, 2, button_height+4*shim);
 
       // Book+ button
         translate([center, center-button_gap, thickness+shim])
-          square_button(5+4*shim, 2, button_height);
+          square_button(5+4*shim, 2, button_height+4*shim);
 
       // Category button
           translate([center+cat_button_x, center-cat_button_y, thickness+shim])
-            round_button(4+2*shim, button_height);
+            round_button(4+2*shim, button_height+4*shim);
 
       // Vol- button
           translate([center-vol_button_x, center+vol_button_y, thickness+shim])
-            round_button(4+2*shim, button_height);
+            round_button(4+2*shim, button_height+4*shim);
 
       // Vol+ button
           translate([center+vol_button_x, center+vol_button_y, thickness+shim])
-            round_button(4+2*shim, button_height);
+            round_button(4+2*shim, button_height+4*shim);
       }
 
       // Speaker holes
