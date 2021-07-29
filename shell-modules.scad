@@ -86,11 +86,8 @@ module speaker_retainer() {
 
 
 // Plug grooves
-module groove(diam) {
-  translate([0, height/2, thickness-length/2])
-  rotate([0, 90, 0])
-  cylinder($fn=40, h=width-height, d=diam, center=true);
-  translate([0, -height/2, thickness-length/2])
-  rotate([0, 90, 0])
-  cylinder($fn=40, h=width-height, d=diam, center=true);
+module groove(diam, width) {
+  translate([0, -height/2, -1.05*tongue_length])
+    rotate([0, 90, 0])
+    cylinder($fn=40, h=width, d=diam, center=true);
 }

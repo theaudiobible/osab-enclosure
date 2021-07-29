@@ -117,6 +117,6 @@ union() {
     rotate([-90, 0, 180])
       speaker_retainer();
 
-  // Groove mates
-  groove(groove_diam);
+  // Groove
+  groove(1.1*groove_diam, groove_width);
 }
