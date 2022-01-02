@@ -3,9 +3,9 @@ osab-enclosure.scad - the OSAB enclosure.
 
 OSAB - the Open Source Audio Bible player.
 
-Copyright (C) 2011-2021 Theophilus (http://theaudiobible.org)
+Copyright (C) 2011-2022 Theophilus (http://theaudiobible.org)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
@@ -30,8 +30,8 @@ radius = 5;
 center = width/2;
 dimple = 1.2;
 speaker_top_diam = 16;
-speaker_mid_diam = 27.5;
-speaker_bot_diam = 30;
+speaker_mid_diam = 28.0;
+speaker_bot_diam = 30.5;
 speaker_top_ht = 1.5;
 speaker_mid_ht = 1.1;
 speaker_bot_ht = 2.4;
@@ -63,7 +63,7 @@ lock_ext_thickness = 3;
 lock_ext_width = 7;
 lock_support_width = 15;
 lock_support_thickness = 1;
-lock_support_height = height/2 - pcb_thickness/2 - lock_ext_thickness/2 - lock_support_thickness;
+lock_support_height = height/2 - pcb_thickness/2 - lock_ext_thickness/2;
 text_depth = 1;
 holder_width = 15.35;
 holder_length = 14.5;
@@ -72,7 +72,8 @@ card_width = 11.05;
 card_length = 2.65;
 card_height = 1.00;
 tongue_length = 20;
-tongue_width = 10;
-tongue_thickness = 2*thickness;
+tongue_width = 4;
+tongue_thickness = 4;
+tongue_hole_diam = 2;
 groove_diam = 1.5;
 groove_width = 1.1*tongue_width;

@@ -3,9 +3,9 @@ osab-enclosure.scad - the OSAB enclosure.
 
 OSAB - the Open Source Audio Bible player.
 
-Copyright (C) 2011-2021 Theophilus (http://theaudiobible.org)
+Copyright (C) 2011-2022 Theophilus (http://theaudiobible.org)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
@@ -16,7 +16,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 use <shell-modules.scad>;
 use <button-modules.scad>;
 include <vars.scad>;
-
 
 union() {
   difference() {
@@ -33,6 +32,10 @@ union() {
               translate([(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
               translate([-(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
           }
+
+      // Button lock hole
+      translate([(width-height)/2, 0, length/2])
+        cube([lock_hole_width, lock_ext_thickness, hole_depth], true);
 
       rotate([-90, 0, 0])
       translate([-width/2, -length/3, -thickness-height/2]) {
@@ -93,23 +96,6 @@ union() {
         rotate([180,0,0])
           linear_extrude(height = text_depth, center = true)
             text("OSAB", size = 8, font="Stardos Stencil:style=Regular");
-  }
-
-
-  // Button lock support
-  difference() {
-    translate([(width-height-thickness/2)/2, thickness-height/2, 8-length/2])
-      rotate([90, 0, 180])
-          union() {
-            cube([lock_support_width, lock_support_thickness, lock_support_height], true);
-            translate([0, 0, lock_support_height/2])
-              rotate([0, 90, 0])
-                cylinder($fn=40, h=lock_support_width, d=lock_support_thickness, center=true);
-          }
-    difference() {
-      outershell(width+5*thickness, length, height+5*thickness);
-      outershell(width, length+shim, height);
-    }
   }
 
   // Speaker retainer
