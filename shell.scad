@@ -17,16 +17,16 @@ use <shell-modules.scad>;
 use <button-modules.scad>;
 include <vars.scad>;
 
-union() {
+%union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
       // Earphone socket hole
-      translate([-(width-height)/2, 0, length/2])
-          cylinder(h=hole_depth, d=earphone_diam+3*shim, center=true);
+      translate([-width*3/10, -(earphone_diam+pcb_thickness)/2, length/2])
+          cylinder(h=hole_depth, d=earphone_diam, center=true);
 
       // USB-C socket hole
-      translate([0, 0, length/2])
+      translate([0, -(usb_height+pcb_thickness)/2, length/2])
           union() {
               rotate([90, 0, 0])cube([usb_width-usb_height+2*shim, hole_depth, usb_height], center=true);
               translate([(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
@@ -34,7 +34,7 @@ union() {
           }
 
       // Button lock hole
-      translate([(width-height)/2, 0, length/2])
+      translate([width*3/10, -(lock_ext_thickness+pcb_thickness)/2, length/2])
         cube([lock_hole_width, lock_ext_thickness, hole_depth], true);
 
       rotate([-90, 0, 0])

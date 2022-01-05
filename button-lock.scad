@@ -16,19 +16,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 include <vars.scad>;
 
 
-rotate([90, 0, 180])
-translate([1-(width-height)/2, lock_ext_depth-length/2, pcb_thickness-lock_ext_thickness])
+rotate([-90, 0, 0])
+translate([width*3/10, lock_ext_depth-length/2, -(lock_ext_thickness+pcb_thickness)/2])
   difference() {
     union() {
       cube([lock_ext_width, lock_ext_depth, lock_ext_thickness], true);
       translate([0, -radius/sqrt(2), 0])
         minkowski() {
-          cube([1, 8, lock_ext_thickness/2], true);
+          cube([lock_ext_lever_width, lock_ext_lever_length, lock_ext_thickness/1.25], true);
           cylinder(h=1, d=1, center=true);
         }
     }
     translate([0, (lock_ext_depth-lock_lever_depth)/2, 0])
       cube([lock_lever_width+shim, lock_lever_depth+shim, lock_ext_thickness+shim], true);
-    translate([0, 0, -lock_ext_thickness/4])
-      cube([lock_support_width, lock_support_thickness+shim, lock_ext_thickness/2+shim], true);
 }
