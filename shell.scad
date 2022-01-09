@@ -17,7 +17,7 @@ use <shell-modules.scad>;
 use <button-modules.scad>;
 include <vars.scad>;
 
-%union() {
+union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -41,7 +41,6 @@ include <vars.scad>;
       translate([-width/2, -length/3, -thickness-height/2]) {
       // PPP button hole
         translate([center, center, thickness+shim])
-          rotate([0, 0, 0])
             triangular_button(7+5*shim, 2, button_height+4*shim);
 
       // Chap+ button
@@ -97,6 +96,44 @@ include <vars.scad>;
           linear_extrude(height = text_depth, center = true)
             text("OSAB", size = 8, font="Stardos Stencil:style=Regular");
   }
+
+  // Button hole supports
+  rotate([-90, 0, 0])
+  !translate([-width/2, -length/3, -thickness-height/2]) {
+    // PPP button hole support
+    translate([center, center, (thickness-shim)/2]) {
+        triangular_button(7+5*shim, 2, shim);
+        triangular_button(7+1*shim, 2, 3*shim);
+    }
+    // Chap+ button hole support
+    translate([center+button_gap, center, thickness+shim])
+      square_button(5+4*shim, 2, shim);
+
+    // Chap- button hole support
+    translate([center-button_gap, center, thickness+shim])
+      square_button(5+4*shim, 2, shim);
+
+    // Book- button hole support
+    translate([center, center+button_gap, thickness+shim])
+      square_button(5+4*shim, 2, shim);
+
+    // Book+ button hole support
+    translate([center, center-button_gap, thickness+shim])
+      square_button(5+4*shim, 2, shim);
+
+    // Category button hole support
+      translate([center+cat_button_x, center-cat_button_y, thickness+shim])
+        round_button(4+2*shim, shim);
+
+    // Vol- button hole support
+      translate([center-vol_button_x, center+vol_button_y, thickness+shim])
+        round_button(4+2*shim, shim);
+
+    // Vol+ button hole support
+      translate([center+vol_button_x, center+vol_button_y, thickness+shim])
+        round_button(4+2*shim, shim);
+  }
+  // end Button hole supports
 
   // Speaker retainer
   translate([0, (height-thickness)/2, -(length+thickness)/4])

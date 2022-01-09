@@ -20,7 +20,6 @@ translate([-width/2, -length/3, -thickness-height/2]) {
     // PPP button
     color("red")
       translate([center, center, thickness])
-        rotate([0, 0, 0])
             triangular_button(7, 2, button_height);
 
     // Chap+ button
