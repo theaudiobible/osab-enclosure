@@ -41,35 +41,35 @@ union() {
       translate([-width/2, -length/3, -thickness-height/2]) {
       // PPP button hole
         translate([center, center, thickness+shim])
-            triangular_button(7+5*shim, 2, button_height+4*shim);
+            triangular_button_shape(7+5*shim, 2, button_height+4*shim);
 
       // Chap+ button
         translate([center+button_gap, center, thickness+shim])
-          square_button(5+4*shim, 2, button_height+4*shim);
+          square_button_shape(5+4*shim, 2, button_height+4*shim);
 
       // Chap- button
         translate([center-button_gap, center, thickness+shim])
-          square_button(5+4*shim, 2, button_height+4*shim);
+          square_button_shape(5+4*shim, 2, button_height+4*shim);
 
       // Book- button
         translate([center, center+button_gap, thickness+shim])
-          square_button(5+4*shim, 2, button_height+4*shim);
+          square_button_shape(5+4*shim, 2, button_height+4*shim);
 
       // Book+ button
         translate([center, center-button_gap, thickness+shim])
-          square_button(5+4*shim, 2, button_height+4*shim);
+          square_button_shape(5+4*shim, 2, button_height+4*shim);
 
       // Category button
           translate([center+cat_button_x, center-cat_button_y, thickness+shim])
-            round_button(4+2*shim, button_height+4*shim);
+            round_button_shape(4+2*shim, button_height+4*shim);
 
       // Vol- button
           translate([center-vol_button_x, center+vol_button_y, thickness+shim])
-            round_button(4+2*shim, button_height+4*shim);
+            round_button_shape(4+2*shim, button_height+4*shim);
 
       // Vol+ button
           translate([center+vol_button_x, center+vol_button_y, thickness+shim])
-            round_button(4+2*shim, button_height+4*shim);
+            round_button_shape(4+2*shim, button_height+4*shim);
       }
 
       // Speaker holes
@@ -99,39 +99,38 @@ union() {
 
   // Button hole supports
   rotate([-90, 0, 0])
-  !translate([-width/2, -length/3, -thickness-height/2]) {
+  translate([-width/2, -length/3, -thickness-height/2]) {
     // PPP button hole support
-    translate([center, center, (thickness-shim)/2]) {
-        triangular_button(7+5*shim, 2, shim);
-        triangular_button(7+1*shim, 2, 3*shim);
+    translate([center, center, thickness/2]) {
+        triangular_button_shape(7+3*shim, 2, thickness);
     }
     // Chap+ button hole support
-    translate([center+button_gap, center, thickness+shim])
-      square_button(5+4*shim, 2, shim);
+    translate([center+button_gap, center, thickness/2])
+      square_button_shape(5+2*shim, 2, thickness);
 
     // Chap- button hole support
-    translate([center-button_gap, center, thickness+shim])
-      square_button(5+4*shim, 2, shim);
+    translate([center-button_gap, center, thickness/2])
+      square_button_shape(5+2*shim, 2, thickness);
 
     // Book- button hole support
-    translate([center, center+button_gap, thickness+shim])
-      square_button(5+4*shim, 2, shim);
+    translate([center, center+button_gap, thickness/2])
+      square_button_shape(5+2*shim, 2, thickness);
 
     // Book+ button hole support
-    translate([center, center-button_gap, thickness+shim])
-      square_button(5+4*shim, 2, shim);
+    translate([center, center-button_gap, thickness/2])
+      square_button_shape(5+2*shim, 2, thickness);
 
     // Category button hole support
-      translate([center+cat_button_x, center-cat_button_y, thickness+shim])
-        round_button(4+2*shim, shim);
+      translate([center+cat_button_x, center-cat_button_y, thickness/2])
+        round_button_shape(4+1*shim, thickness);
 
     // Vol- button hole support
-      translate([center-vol_button_x, center+vol_button_y, thickness+shim])
-        round_button(4+2*shim, shim);
+      translate([center-vol_button_x, center+vol_button_y, thickness/2])
+        round_button_shape(4+1*shim, thickness);
 
     // Vol+ button hole support
-      translate([center+vol_button_x, center+vol_button_y, thickness+shim])
-        round_button(4+2*shim, shim);
+      translate([center+vol_button_x, center+vol_button_y, thickness/2])
+        round_button_shape(4+1*shim, thickness);
   }
   // end Button hole supports
 
