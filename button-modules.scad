@@ -28,9 +28,12 @@ module triangular_button_profile(side_length, corner_radius) {
       circle(corner_radius);
   }
 }
-module triangular_button_shape(side_length, corner_radius, height) {
+module triangular_button_cutter(side_length, corner_radius, height) {
   linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
+  difference() {
+    triangular_button_profile(side_length+1+2*shim, corner_radius);
     triangular_button_profile(side_length+1, corner_radius);
+  }
 }
 module triangular_button(side_length, corner_radius, height) {
   translate([0, 0, -height/4])
@@ -55,9 +58,12 @@ module square_button_profile(side_length, corner_radius) {
       circle(corner_radius);
     }
 }
-module square_button_shape(side_length, corner_radius, height) {
-    linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
-      square_button_profile(side_length+1, corner_radius);
+module square_button_cutter(side_length, corner_radius, height) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
+  difference() {
+    square_button_profile(side_length+1+2*shim, corner_radius);
+    square_button_profile(side_length+1, corner_radius);
+  }
 }
 module square_button(side_length, corner_radius, height) {
   translate([0, 0, -height/4])
@@ -70,8 +76,11 @@ module square_button(side_length, corner_radius, height) {
 
 
 // Round button
-module round_button_shape(radius, height) {
-  cylinder(r=radius, h=height, center=true);
+module round_button_cutter(radius, height) {
+  difference() {
+    cylinder(r=radius+shim, h=height, center=true);
+    cylinder(r=radius, h=height, center=true);
+  }
 }
 module round_button(radius, height) {
   union() {
