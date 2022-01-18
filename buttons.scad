@@ -1,5 +1,5 @@
 /*
-osab-enclosure.scad - the OSAB enclosure.
+buttons.scad - Buttons for the OSAB enclosure.
 
 OSAB - the Open Source Audio Bible player.
 
