@@ -16,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 $fa=0.5; // default minimum facet angle is now 0.5
 $fs=0.5; // default minimum facet size is now 0.5 mm
 
+nozzle_diam = 0.35; // 3D printer nozzle diameter
 
 thickness = 2;
 pcb_width = 50;

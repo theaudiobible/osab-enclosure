@@ -17,14 +17,16 @@ include <vars.scad>;
 
 
 rotate([-90, 0, 0])
-translate([width*3/10, lock_ext_depth-length/2, -(lock_ext_thickness+pcb_thickness)/2])
+translate([(lock_hole_width-lock_ext_lever_width-2*nozzle_diam)/2+width*3/10, lock_ext_depth-length/2, -(lock_ext_thickness+pcb_thickness)/2])
   difference() {
     union() {
-      cube([lock_ext_width, lock_ext_depth, lock_ext_thickness], true);
+      cube([lock_ext_width, lock_ext_depth, lock_ext_thickness-2*nozzle_diam], true);
       translate([0, -radius/sqrt(2), 0])
-        minkowski() {
-          cube([lock_ext_lever_width, lock_ext_lever_length, lock_ext_thickness/1.25], true);
-          cylinder(h=1, d=1, center=true);
+        linear_extrude(height=lock_ext_thickness-2*nozzle_diam, center=true, convexity=10, twist=0, scale=1)
+        union() {
+          square([lock_ext_lever_width, lock_ext_lever_length], true);
+          translate([0, -lock_ext_lever_length/2, 0])
+            circle(d=lock_ext_lever_width);
         }
     }
     translate([0, (lock_ext_depth-lock_lever_depth)/2, 0])
