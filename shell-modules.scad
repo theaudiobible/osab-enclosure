@@ -44,7 +44,7 @@ module shell(width, length, height, thickness) {
         translate([-(width-height)/2, 0, thickness/2])
           cylinder(h = length-3*thickness, d = height, center=true);
       }
-      cube([(width-3), height, length+shim], center=true);
+      cube([(width-2*pcb_edge_clearance), height, length+shim], center=true);
       difference() {
         outershell(width, length+shim, height);
         translate([0, height/4, 0])

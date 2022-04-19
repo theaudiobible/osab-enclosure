@@ -20,6 +20,7 @@ nozzle_diam = 0.35; // 3D printer nozzle diameter
 
 thickness = 2;
 pcb_width = 50;
+pcb_edge_clearance = 1.5;
 height = 12;
 width = pcb_width;
 length = width*(1+sqrt(5))/2;
