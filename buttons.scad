@@ -22,42 +22,47 @@ translate([-width/2, -length/3, -thickness-height/2]) {
     // PPP button
     color("red")
       translate([center, center - pppoff, thickness])
-            triangular_button(6, 2, button_height);
+            triangular_button(triangle_button_side, triangle_button_radius, button_height);
 
     // Chap+ button
     color("orange")
       translate([center+button_gap, center - pppoff, thickness])
-        square_button(5, 2, button_height);
+        square_button(square_button_side, square_button_radius, button_height);
 
     // Chap- button
     color("orange")
       translate([center-button_gap, center - pppoff, thickness])
-        square_button(5, 2, button_height);
+        square_button(square_button_side, square_button_radius, button_height);
 
     // Book- button
     color("brown")
       translate([center, center+button_gap - pppoff, thickness])
-        square_button(5, 2, button_height);
+        square_button(square_button_side, square_button_radius, button_height);
 
     // Book+ button
     color("brown")
       translate([center, center-button_gap - pppoff, thickness])
-        square_button(5, 2, button_height);
+        square_button(square_button_side, square_button_radius, button_height);
+
+    // Light button
+    color ("white")
+      translate([center-light_button_x, center-light_button_y - pppoff, thickness])
+        round_button(light_button_radius, button_height);
 
     // Category button
     color ("grey")
       translate([center+cat_button_x, center-cat_button_y - pppoff, thickness])
-        round_button(4, button_height);
+        round_button(cat_button_radius, button_height);
 
     // Vol- button
     color("blue")
       translate([center-vol_button_x, center+vol_button_y - pppoff, thickness])
-        round_button(4, button_height);
+        round_button(vol_button_radius, button_height);
 
     // Vol+ button
     color("blue")
       translate([center+vol_button_x, center+vol_button_y - pppoff, thickness])
-        round_button(4, button_height);
+        round_button(vol_button_radius, button_height);
 
     translate([0, 0, button_height-strip_height/2]) {
       strip(center, center - pppoff, center+vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
@@ -77,5 +82,9 @@ translate([-width/2, -length/3, -thickness-height/2]) {
       strip(center-vol_button_x, center+vol_button_y - pppoff, center-button_gap, center - pppoff, strip_width, strip_height);
 
       strip(center-button_gap, center - pppoff, center, center-button_gap - pppoff, strip_width, strip_height);
+
+      strip(center, center-button_gap - pppoff, center-light_button_x, center-light_button_y - pppoff, strip_width, strip_height);
+
+      strip(center, center-button_gap - pppoff, center+vol_button_x, center-vol_button_y - pppoff, strip_width, strip_height);
     }
 }
