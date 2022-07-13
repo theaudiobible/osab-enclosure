@@ -76,10 +76,14 @@ module square_button(side_length, corner_radius, height) {
 
 
 // Round button
+module round_button_profile(radius) {
+  circle(r=radius);
+}
 module round_button_cutter(radius, height) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
   difference() {
-    cylinder(r=radius+shim, h=height, center=true);
-    cylinder(r=radius, h=height, center=true);
+    round_button_profile(radius+shim);
+    round_button_profile(radius);
   }
 }
 module round_button(radius, height) {

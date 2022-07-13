@@ -15,53 +15,53 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 include <vars.scad>;
 include <shell.scad>;
-include <buttons.scad>;
-include <button-lock.scad>;
-include <plug.scad>;
+//include <buttons.scad>;
+//include <button-lock.scad>;
+//include <plug.scad>;
 
 
 // PCB
-*translate([width/2, pcb_length/2-(radius-(thickness+shim)), pcb_thickness+thickness]) {
-  rotate([0, 180, 180]) {
+translate([0, 0, ppp_offset_from_pcb_center/2]) {
+  rotate([90, 0, 0]) {
     import("osab.stl", convexity=10);
   }
 }
 
 
 // simPCB
-color("green")
-  translate([0, 0, thickness/2])
-    rotate([90, 0, 0])
-      cube([width, pcb_length, pcb_thickness], center=true);
+//color("green")
+//  translate([0, 0, thickness/2])
+//    rotate([90, 0, 0])
+//      cube([width, pcb_length, pcb_thickness], center=true);
 
 
 // simLithiumBattery
-color("grey")
-  translate([0, height/4, length/5])
-    cube([38, 6, 25], center=true);
+//color("grey")
+//  translate([0, height/4, length/5])
+//    cube([38, 6, 25], center=true);
 
 
 // simCardHolder
-translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
-  rotate([90, 180, 0]) {
-    color("grey")
-      cube([holder_width, holder_length, holder_height], center=true);
-      color("red")
-        translate([1.5, holder_length/2, card_height/2])
-          cube([card_width, card_length, card_height], center=true);
-  }
-}
+//translate([(height-width)/3, -holder_height/2, card_length/2-length/2.65]) {
+//  rotate([90, 180, 0]) {
+//    color("grey")
+//      cube([holder_width, holder_length, holder_height], center=true);
+//      color("red")
+//        translate([1.5, holder_length/2, card_height/2])
+//          cube([card_width, card_length, card_height], center=true);
+//  }
+//}
 
 
 // simSpeaker
-translate([0, (height-thickness)/2, -(length+thickness)/4])
-  rotate([90, 0, 0])
-    {
-      %color("grey") {
-        cylinder(h=speaker_bot_ht, d=speaker_bot_diam, center=true);
-        translate([0, 0, (speaker_bot_ht+speaker_mid_ht)/2])
-          cylinder(h=speaker_mid_ht, d=speaker_mid_diam, center=true);
-        translate([0, 0, (speaker_bot_ht+speaker_mid_ht+speaker_top_ht)/2])
-          cylinder(h=speaker_top_ht, d=speaker_top_diam, center=true);
-      }
-    }
+//translate([0, (height-thickness)/2, -(length+thickness)/4])
+//  rotate([90, 0, 0])
+//    {
+//      %color("grey") {
+//        cylinder(h=speaker_bot_ht, d=speaker_bot_diam, center=true);
+//        translate([0, 0, (speaker_bot_ht+speaker_mid_ht)/2])
+//          cylinder(h=speaker_mid_ht, d=speaker_mid_diam, center=true);
+//        translate([0, 0, (speaker_bot_ht+speaker_mid_ht+speaker_top_ht)/2])
+//          cylinder(h=speaker_top_ht, d=speaker_top_diam, center=true);
+//      }
+//    }

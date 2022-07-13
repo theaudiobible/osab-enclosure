@@ -48,9 +48,9 @@ module shell(width, length, height, thickness) {
       difference() {
         outershell(width, length+shim, height);
         translate([0, height/4, 0])
-          cube([width*2, height/2-pcb_thickness-shim, length+shim], center=true);
+          cube([width*2, height/2-pcb_thickness-2*shim, length+shim], center=true);
         translate([0, -height/4, 0])
-          cube([width*2, height/2-pcb_thickness-shim, length+shim], center=true);
+          cube([width*2, height/2-pcb_thickness-2*shim, length+shim], center=true);
       }
     }
     translate([0, 0, (length - thickness)/2])
