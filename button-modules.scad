@@ -36,11 +36,11 @@ module triangular_button_cutter(side_length, corner_radius, height) {
   }
 }
 module triangular_button(side_length, corner_radius, height) {
-  translate([0, 0, -height/4])
-    linear_extrude(height=height/2, center=true, convexity=10, twist=0, scale=1)
+  translate([0, 0, -thickness/2])
+    linear_extrude(height=thickness, center=true, convexity=10, twist=0, scale=1)
     triangular_button_profile(side_length, corner_radius);
-  translate([0, 0, height/4])
-    linear_extrude(height=height/2, center=true, convexity=10, twist=0, scale=1)
+  translate([0, 0, height/2])
+    linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
     triangular_button_profile(side_length+1, corner_radius);
 }
 
@@ -66,11 +66,11 @@ module square_button_cutter(side_length, corner_radius, height) {
   }
 }
 module square_button(side_length, corner_radius, height) {
-  translate([0, 0, -height/4])
-    linear_extrude(height=height/2, center=true, convexity=10, twist=0, scale=1)
+  translate([0, 0, -thickness/2])
+    linear_extrude(height=thickness, center=true, convexity=10, twist=0, scale=1)
       square_button_profile(side_length, corner_radius);
-  translate([0, 0, height/4])
-    linear_extrude(height=height/2, center=true, convexity=10, twist=0, scale=1)
+  translate([0, 0, height/2])
+    linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
       square_button_profile(side_length+1, corner_radius);
 }
 
@@ -88,10 +88,10 @@ module round_button_cutter(radius, height) {
 }
 module round_button(radius, height) {
   union() {
-    translate([0, 0, -height/4])
-      cylinder(r=radius, h=height/2, center=true);
-    translate([0, 0, height/4])
-      linear_extrude(height=height/2, center=true, convexity=10, twist=0, scale=1)
+    translate([0, 0, -thickness/2])
+      cylinder(r=radius, h=thickness, center=true);
+    translate([0, 0, height/2])
+      linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
         circle(r=radius+0.5);
   }
 }

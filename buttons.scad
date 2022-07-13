@@ -64,7 +64,7 @@ translate([-width/2, -length/3, -thickness-height/2]) {
       translate([center+vol_button_x, center+vol_button_y - pppoff, thickness])
         round_button(vol_button_radius, button_height);
 
-    translate([0, 0, button_height-strip_height/2]) {
+    translate([0, 0, button_height + (thickness+strip_height)/2]) {
       strip(center, center - pppoff, center+vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
 
       strip(center, center - pppoff, center-vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
