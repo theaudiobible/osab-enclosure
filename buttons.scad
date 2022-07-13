@@ -15,65 +15,67 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 use <button-modules.scad>;
 include <vars.scad>;
 
+pppoff = ppp_offset_from_pcb_center;
+
 rotate([-90, 0, 0])
 translate([-width/2, -length/3, -thickness-height/2]) {
     // PPP button
     color("red")
-      translate([center, center, thickness])
+      translate([center, center - pppoff, thickness])
             triangular_button(6, 2, button_height);
 
     // Chap+ button
     color("orange")
-      translate([center+button_gap, center, thickness])
+      translate([center+button_gap, center - pppoff, thickness])
         square_button(5, 2, button_height);
 
     // Chap- button
     color("orange")
-      translate([center-button_gap, center, thickness]) 
+      translate([center-button_gap, center - pppoff, thickness])
         square_button(5, 2, button_height);
 
     // Book- button
     color("brown")
-      translate([center, center+button_gap, thickness])
+      translate([center, center+button_gap - pppoff, thickness])
         square_button(5, 2, button_height);
 
     // Book+ button
     color("brown")
-      translate([center, center-button_gap, thickness])
+      translate([center, center-button_gap - pppoff, thickness])
         square_button(5, 2, button_height);
 
     // Category button
     color ("grey")
-      translate([center+cat_button_x, center-cat_button_y, thickness])
+      translate([center+cat_button_x, center-cat_button_y - pppoff, thickness])
         round_button(4, button_height);
 
     // Vol- button
     color("blue")
-      translate([center-vol_button_x, center+vol_button_y, thickness])
+      translate([center-vol_button_x, center+vol_button_y - pppoff, thickness])
         round_button(4, button_height);
 
     // Vol+ button
     color("blue")
-      translate([center+vol_button_x, center+vol_button_y, thickness])
+      translate([center+vol_button_x, center+vol_button_y - pppoff, thickness])
         round_button(4, button_height);
 
     translate([0, 0, button_height-strip_height/2]) {
-      strip(center, center, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center, center - pppoff, center+vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
 
-      strip(center, center, center-vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center, center - pppoff, center-vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
 
-      strip(center, center, center+cat_button_x, center-cat_button_y, strip_width, strip_height);
+      strip(center, center - pppoff, center+cat_button_x, center-cat_button_y - pppoff, strip_width, strip_height);
 
-      strip(center, center+button_gap, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center, center+button_gap - pppoff, center+vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
 
-      strip(center, center+button_gap, center-vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center, center+button_gap - pppoff, center-vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
 
-      strip(center+button_gap, center, center+vol_button_x, center+vol_button_y, strip_width, strip_height);
+      strip(center+button_gap, center - pppoff, center+vol_button_x, center+vol_button_y - pppoff, strip_width, strip_height);
 
-      strip(center+button_gap, center,center+cat_button_x, center-cat_button_y, strip_width, strip_height);
+      strip(center+button_gap, center - pppoff, center+cat_button_x, center-cat_button_y - pppoff, strip_width, strip_height);
 
-      strip(center-vol_button_x, center+vol_button_y, center-button_gap, center, strip_width, strip_height);
+      strip(center-vol_button_x, center+vol_button_y - pppoff, center-button_gap, center - pppoff, strip_width, strip_height);
 
-      strip(center-button_gap, center, center, center-button_gap, strip_width, strip_height);
+      strip(center-button_gap, center - pppoff, center, center-button_gap - pppoff, strip_width, strip_height);
     }
 }
