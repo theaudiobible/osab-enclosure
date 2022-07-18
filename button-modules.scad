@@ -101,16 +101,14 @@ module round_button_cutter(radius, height) {
 module round_button(radius, height) {
   h2 = radius - switch_button_diam/2;
   h1 = height - h2;
-  union() {
-    translate([0, 0, -thickness/2])
-      cylinder(r=radius, h=thickness, center=true);
-    translate([0, 0, h1/2])
-      linear_extrude(height=h1, center=true, convexity=10, twist=0, scale=1)
-        circle(r=radius+0.5);
-    translate([0, 0, (height+h1)/2])
-      linear_extrude(height=h2, center=true, convexity=10, twist=0, scale=0.5)
-        circle(r=radius+0.5);
-  }
+  translate([0, 0, -thickness/2])
+    cylinder(r=radius, h=thickness, center=true);
+  translate([0, 0, h1/2])
+    linear_extrude(height=h1, center=true, convexity=10, twist=0, scale=1)
+      circle(r=radius+0.5);
+  translate([0, 0, h1 + h2/2])
+    linear_extrude(height=h2, center=true, convexity=10, twist=0, scale=0.5)
+      circle(r=radius+0.5);
 }
 
 
