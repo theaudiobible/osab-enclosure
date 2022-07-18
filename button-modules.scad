@@ -38,12 +38,17 @@ module triangular_button_cutter(side_length, corner_radius, height) {
   }
 }
 module triangular_button(side_length, corner_radius, height) {
+  h2 = radius - switch_button_diam/2;
+  h1 = height - h2;
   translate([0, 0, -thickness/2])
     linear_extrude(height=thickness, center=true, convexity=10, twist=0, scale=1)
-    triangular_button_profile(side_length, corner_radius);
-  translate([0, 0, height/2])
-    linear_extrude(height=height, center=true, convexity=10, twist=0, scale=button_scale)
-    triangular_button_profile(side_length+1, corner_radius);
+      triangular_button_profile(side_length, corner_radius);
+  translate([0, 0, h1/2])
+    linear_extrude(height=h1, center=true, convexity=10, twist=0, scale=1)
+      triangular_button_profile(side_length+1, corner_radius);
+  translate([0, 0, (height+h1)/2])
+    linear_extrude(height=h2, center=true, convexity=10, twist=0, scale=0.5)
+      triangular_button_profile(side_length+1, corner_radius);
 }
 
 
@@ -68,11 +73,16 @@ module square_button_cutter(side_length, corner_radius, height) {
   }
 }
 module square_button(side_length, corner_radius, height) {
+  h2 = corner_radius + side_length/2 - switch_button_diam/2;
+  h1 = height - h2;
   translate([0, 0, -thickness/2])
     linear_extrude(height=thickness, center=true, convexity=10, twist=0, scale=1)
       square_button_profile(side_length, corner_radius);
-  translate([0, 0, height/2])
-    linear_extrude(height=height, center=true, convexity=10, twist=0, scale=button_scale)
+  translate([0, 0, h1/2])
+    linear_extrude(height=h1, center=true, convexity=10, twist=0, scale=1)
+      square_button_profile(side_length+1, corner_radius);
+  translate([0, 0, (height+h1)/2])
+    linear_extrude(height=h2, center=true, convexity=10, twist=0, scale=0.5)
       square_button_profile(side_length+1, corner_radius);
 }
 
@@ -89,11 +99,16 @@ module round_button_cutter(radius, height) {
   }
 }
 module round_button(radius, height) {
+  h2 = radius - switch_button_diam/2;
+  h1 = height - h2;
   union() {
     translate([0, 0, -thickness/2])
       cylinder(r=radius, h=thickness, center=true);
-    translate([0, 0, height/2])
-      linear_extrude(height=height, center=true, convexity=10, twist=0, scale=button_scale)
+    translate([0, 0, h1/2])
+      linear_extrude(height=h1, center=true, convexity=10, twist=0, scale=1)
+        circle(r=radius+0.5);
+    translate([0, 0, (height+h1)/2])
+      linear_extrude(height=h2, center=true, convexity=10, twist=0, scale=0.5)
         circle(r=radius+0.5);
   }
 }
@@ -110,14 +125,14 @@ module strip(x1, y1, x2, y2, width, height) {
   sinq = o/h;
   cosq = a/h;
   polyhedron(points = [
-              [x1 - sinq*width/2, y1 + cosq*width/2, -height/2],
-              [x2 - sinq*width/2, y2 + cosq*width/2, -height/2],
-              [x2 + sinq*width/2, y2 - cosq*width/2, -height/2],
-              [x1 + sinq*width/2, y1 - cosq*width/2, -height/2],
-              [x1 - sinq*width/2 - (height/tanp)*sinq, y1 + cosq*width/2 + (height/cotp)*cosq, height/2],
-              [x2 - sinq*width/2 - (height/tanp)*sinq, y2 + cosq*width/2 + (height/cotp)*cosq, height/2],
-              [x2 + sinq*width/2 + (height/tanp)*sinq, y2 - cosq*width/2 - (height/cotp)*cosq, height/2],
-              [x1 + sinq*width/2 + (height/tanp)*sinq, y1 - cosq*width/2 - (height/cotp)*cosq, height/2]],
+              [x1 - sinq*width/2, y1 + cosq*width/2, height/2],
+              [x2 - sinq*width/2, y2 + cosq*width/2, height/2],
+              [x2 + sinq*width/2, y2 - cosq*width/2, height/2],
+              [x1 + sinq*width/2, y1 - cosq*width/2, height/2],
+              [x1 - sinq*width/2 - (height/tanp)*sinq, y1 + cosq*width/2 + (height/cotp)*cosq, -height/2],
+              [x2 - sinq*width/2 - (height/tanp)*sinq, y2 + cosq*width/2 + (height/cotp)*cosq, -height/2],
+              [x2 + sinq*width/2 + (height/tanp)*sinq, y2 - cosq*width/2 - (height/cotp)*cosq, -height/2],
+              [x1 + sinq*width/2 + (height/tanp)*sinq, y1 - cosq*width/2 - (height/cotp)*cosq, -height/2]],
              faces = [
               [0,1,2,3],   // bottom
               [4,5,1,0],   // front
