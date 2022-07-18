@@ -57,6 +57,7 @@ vol_button_radius = 3;
 light_button_radius = 2;
 button_height = (height-thickness+pcb_thickness)/2 - switch_height;
 button_gap = 14;
+button_shoulder = 0.5;
 strip_width = 1;
 strip_height = 1;
 earphone_diam = 5 + 2*shim;
