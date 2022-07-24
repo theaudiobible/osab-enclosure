@@ -34,8 +34,8 @@ include <vars.scad>;
           }
 
       // Button lock hole
-      translate([-18, -(lock_ext_thickness+pcb_thickness)/2, length/2])
-        cube([lock_hole_width, lock_ext_thickness, hole_depth], true);
+      translate([-lock_x_offset, -(lock_height + pcb_thickness)/2, length/2])
+        cube([lock_hole_width, lock_shaft_height, hole_depth], true);
 
       rotate([-90, 0, 0])
       translate([-width/2, -length/3, -thickness-height/2]) {
