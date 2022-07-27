@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 use <shell-modules.scad>;
 include <vars.scad>;
 
-difference() {
+%difference() {
   union() {
     // Shell insert
     translate([0, 0, thickness-length/2])
@@ -34,18 +34,14 @@ difference() {
         }
     // Tongue
     translate([0, (tongue_thickness-height)/2, (tongue_length-length)/2]) {
-      cube([tongue_width, tongue_thickness, tongue_length], center=true);
-      translate([0 ,0 ,(tongue_length)/2])
-        rotate([0, 90, 0])
-          cylinder($fn=40, h=tongue_width, d=tongue_thickness, center=true);
+      tongue(tongue_width, tongue_thickness, tongue_length);
     }
   }
-  // Card slot
-  translate([-20.2, (holder_height-card_height-height/2)/2, 1.2-length/2])
-    cube([card_width*1.1, card_height*1.1, card_length*1.1]);
-  // Tongue cavity
+  // Tongue cavity (to break through Shell insert above)
   translate([0, (tongue_thickness-height)/2, (tongue_length-length-thickness)/2])
     cylinder($fn=40, h=tongue_length, d=tongue_hole_diam, center=true);
-  // Groove
-  groove(1.1*groove_diam, groove_width);
+
+  // Card slot
+  translate([-(card_x_offset + 5.7), (holder_height-card_height-height/2)/2, 1.2-length/2])
+    cube([card_width*1.1, card_height*1.1, card_length*2]);
 }

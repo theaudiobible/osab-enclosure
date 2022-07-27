@@ -91,3 +91,26 @@ module groove(diam, width) {
     rotate([0, 90, 0])
     cylinder($fn=40, h=width, d=diam, center=true);
 }
+
+
+// Tongue
+module tongue(width, thickness, length) {
+  difference() {
+    union() {
+      cylinder($fn=40, h=length, d=thickness, center=true);
+      translate([0 ,0, length/2])
+        rotate([0, 90, 0])
+          sphere(d=thickness);
+    }
+    translate([0, 0, length/2-(thickness-tongue_hole_diam)/2])
+      rotate([0, 90, 0])
+        sphere(d=tongue_hole_diam);
+  // Groove
+  translate([0, (height-thickness)/2, length+length/2])
+    groove(1.1*groove_diam, groove_width);
+  }
+  // Tongue cavity
+  translate([0, 0, 0])
+    cylinder($fn=40, h=tongue_length, d=tongue_hole_diam, center=true);
+
+}

@@ -107,5 +107,5 @@ include <vars.scad>;
       speaker_retainer();
 
   // Groove
-  groove(1.1*groove_diam, groove_width);
+  #groove(1.1*groove_diam, groove_width);
 }
