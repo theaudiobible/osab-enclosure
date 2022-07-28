@@ -40,9 +40,9 @@ module shell(width, length, height, thickness) {
     difference() {
       union() {
         translate([(width-height)/2, 0, thickness/2])
-          cylinder(h = length-3*thickness, d = height, center=true);
+          cylinder(h = pcb_length, d = height, center=true);
         translate([-(width-height)/2, 0, thickness/2])
-          cylinder(h = length-3*thickness, d = height, center=true);
+          cylinder(h = pcb_length, d = height, center=true);
       }
       cube([(width-2*pcb_edge_clearance), height, length+shim], center=true);
       difference() {
@@ -85,7 +85,7 @@ module speaker_retainer() {
 }
 
 
-// Plug grooves
+// Tongue grooves
 module groove(diam, width) {
   translate([0, -height/2, -1.05*tongue_length])
     rotate([0, 90, 0])
