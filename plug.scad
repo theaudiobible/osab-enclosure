@@ -32,13 +32,20 @@ include <vars.scad>;
           translate([0, thickness-2*height, 0])
             cube([width, height, height], center=true);
         }
-    // Tongue
-    translate([0, (tongue_thickness-height)/2, (tongue_length-length)/2]) {
-      tongue(tongue_width, tongue_thickness, tongue_length);
-    }
+    // Tongue - left
+    translate([tongue_dx+thickness-width/2, tongue_dy+thickness, (tongue_length-length)/2])
+      rotate([0, 0, -90])
+        tongue(tongue_width, tongue_thickness, tongue_length);
+    // Tongue - right
+    translate([-tongue_dx-thickness+width/2, tongue_dy+thickness, (tongue_length-length)/2])
+      rotate([0, 0, 90])
+        tongue(tongue_width, tongue_thickness, tongue_length);
   }
-  // Tongue cavity (to break through Shell insert above)
-  translate([0, (tongue_thickness-height)/2, (tongue_length-length-thickness)/2])
+  // Tongue cavity (to break through 'Shell insert' above) - left
+  translate([tongue_dx+thickness-width/2, tongue_dy+thickness, (tongue_length-length)/2 - shim])
+    cylinder($fn=40, h=tongue_length, d=tongue_hole_diam, center=true);
+  // Tongue cavity (to break through 'Shell insert' above) - right
+  translate([-tongue_dx-thickness+width/2, tongue_dy+thickness, (tongue_length-length)/2 - shim])
     cylinder($fn=40, h=tongue_length, d=tongue_hole_diam, center=true);
 
   // Card slot

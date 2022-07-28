@@ -82,5 +82,7 @@ tongue_length = 10;
 tongue_width = 4;
 tongue_thickness = 4;
 tongue_hole_diam = 3;
+tongue_dx = 1.5;
+tongue_dy = 0.5;
 groove_diam = 1.5;
 groove_width = 1.1*tongue_width;
