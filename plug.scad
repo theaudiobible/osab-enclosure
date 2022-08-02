@@ -35,11 +35,11 @@ include <vars.scad>;
     // Tongue - left
     translate([tongue_dx+thickness-width/2, tongue_dy+thickness, (tongue_length-length)/2])
       rotate([0, 0, -90])
-        tongue(tongue_width, tongue_thickness, tongue_length);
+        tongue(tongue_width, tongue_length);
     // Tongue - right
     translate([-tongue_dx-thickness+width/2, tongue_dy+thickness, (tongue_length-length)/2])
       rotate([0, 0, 90])
-        tongue(tongue_width, tongue_thickness, tongue_length);
+        tongue(tongue_width, tongue_length);
   }
   // Tongue cavity (to break through 'Shell insert' above) - left
   translate([tongue_dx+thickness-width/2, tongue_dy+thickness, (tongue_length-length)/2 - shim])

@@ -87,14 +87,12 @@ module speaker_retainer() {
 
 // Tongue grooves
 module groove(diam, width) {
-  translate([0, -height/2, -1.05*tongue_length])
-    rotate([0, 90, 0])
-    cylinder($fn=40, h=width, d=diam, center=true);
+  cylinder($fn=40, h=width, d=diam, center=true);
 }
 
 
 // Tongue
-module tongue(width, thickness, length) {
+module tongue(thickness, length) {
   difference() {
     union() {
       cylinder($fn=40, h=length, d=thickness, center=true);
@@ -106,8 +104,9 @@ module tongue(width, thickness, length) {
       rotate([0, 90, 0])
         sphere(d=tongue_hole_diam);
   // Groove
-  translate([0, (height-thickness)/2, length+length/2])
-    groove(1.1*groove_diam, groove_width);
+  translate([0, -thickness/2, tongue_groove_height])
+    rotate([0, 90, 0])
+      groove(1.1*groove_diam, groove_width);
   }
   // Tongue cavity
   translate([0, 0, 0])
