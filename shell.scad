@@ -19,7 +19,7 @@ include <vars.scad>;
 
 %union() {
   difference() {
-      *shell(thickness = thickness, width = width, length = length, height = height);
+      shell(thickness = thickness, width = width, length = length, height = height);
 
       // Earphone socket hole
       translate([18.7, -(earphone_diam+pcb_thickness)/2, length/2])
@@ -102,16 +102,16 @@ include <vars.scad>;
   }
 
   // Speaker retainer
-  translate([0, (height-thickness)/2, -(length+thickness)/4])
+  translate([0, (height - thickness)/2, -(length + thickness)/4])
     rotate([-90, 0, 180])
       speaker_retainer();
 
   // Anti-groove - left
-  #translate([0.3 + width/3, 0.35 + (pcb_thickness+groove_width)/2, -20.75])
-    rotate([0, 0, 90])
+  translate([(width/2 - groove_diam), anti_groove_dy, tongue_groove_height + groove_diam/2 + 2*thickness - length/2 + tongue_dy/2])
+    rotate([90, 0, 0])
       groove(groove_diam, groove_width);
   // Anti-groove - right
-  #translate([-0.0 - width/2, 0.35 + (pcb_thickness+groove_width)/2, -20.75])
-    rotate([0, 0, 90])
+  translate([-(width/2 - groove_diam), anti_groove_dy, tongue_groove_height + groove_diam/2 + 2*thickness - length/2 + tongue_dy/2])
+    rotate([90, 0, 0])
       groove(groove_diam, groove_width);
 }

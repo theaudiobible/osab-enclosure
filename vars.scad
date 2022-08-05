@@ -86,3 +86,4 @@ tongue_dx = 1.5;
 tongue_dy = 0.5;
 groove_diam = 1.5;
 groove_width = 3.3;
+anti_groove_dy = 2.5;
