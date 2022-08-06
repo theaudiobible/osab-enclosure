@@ -98,3 +98,6 @@ battery_retainer_wall_gap = 1;
 battery_retainer_tip_angle = 45;
 battery_retainer_tip_height = 2;
 battery_retainer_tip_base = 2*battery_retainer_tip_height/tan(battery_retainer_tip_angle);
+battery_retainer_rail_angle = 45;
+battery_retainer_rail_height = 1;
+battery_retainer_rail_side = battery_retainer_rail_height/sin(battery_retainer_rail_angle);

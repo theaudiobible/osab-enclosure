@@ -125,17 +125,25 @@ module triangluar_solid(Q, height, length) {  // Q = base angle of isosceles tri
 }
 
 
-  //Battery retainer
+  // Battery retainer
 module battery_retainer(side) {  // side = "left"|"right"
   _sign = side == "left" ? 1 : -1;
 
   difference() {
     union() {
       cube([battery_retainer_wall_thickness, battery_thickness, battery_length + battery_retainer_tip_base], center = true);
+      // triangular tip
       translate([_sign*battery_retainer_wall_thickness/2, 0, -(battery_length - battery_retainer_tip_base)/2])
         rotate([_sign*90, 90, 0])
           triangluar_solid(battery_retainer_tip_angle, battery_retainer_tip_height, battery_thickness);
+      // rail along the top edge
+      translate([_sign*(battery_retainer_wall_thickness + _sign*battery_retainer_rail_side/2 - shim/4),
+                sign(1 - _sign)*battery_retainer_rail_side - battery_thickness/2,
+                (battery_length + battery_retainer_tip_base - battery_length/2)/2])
+        rotate([0, 0, _sign*135])
+          triangluar_solid(battery_retainer_rail_angle, battery_retainer_rail_height, battery_length/2);
     }
+      // gap at the bottom
       translate([0, (battery_thickness - battery_retainer_wall_gap)/2, -battery_length/6 - shim])
         cube([9*battery_retainer_wall_thickness, battery_retainer_wall_gap, battery_length*2/3 + battery_retainer_tip_base], center = true);
   }

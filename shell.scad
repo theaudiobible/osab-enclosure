@@ -116,9 +116,9 @@ include <vars.scad>;
       groove(groove_diam, groove_width);
 
   // Battery retainer
-  #translate([(battery_width + battery_retainer_wall_thickness)/2, (height - battery_thickness)/2, battery_length/2 + 5.235])
+  translate([(battery_width + battery_retainer_wall_thickness)/2, (height - battery_thickness)/2, battery_length/2 + 5.235])
     battery_retainer("right");
-  #translate([-(battery_width + battery_retainer_wall_thickness)/2, (height - battery_thickness)/2, battery_length/2 + 5.235])
+  translate([-(battery_width + battery_retainer_wall_thickness)/2, (height - battery_thickness)/2, battery_length/2 + 5.235])
     battery_retainer("left");
 
 }
