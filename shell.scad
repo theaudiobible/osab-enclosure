@@ -79,16 +79,16 @@ include <vars.scad>;
       // Speaker holes
       translate([0, 0, -(length+thickness)/4])
        rotate([90, 0, 0]) {
-        r = 3;
+        r = speaker_ring_radius_inner;
         for (Q = [0:60:300]) {
           translate([r*cos(Q), r*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
         }
-        rad = 7.5;
+        rad = speaker_ring_radius_middle;
         for (Q = [0:20:340]) {
           translate([rad*cos(Q), rad*sin(Q), -speaker_hole_height])
             cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
           }
-        rd = 12;
+        rd = speaker_ring_radius_outer;
         for (Q = [0:15:345]) {
           translate([rd*cos(Q), rd*sin(Q), -speaker_hole_height])cylinder(h=speaker_hole_height, d=speaker_hole_diameter, center=true);
         }
