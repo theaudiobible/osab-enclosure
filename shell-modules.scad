@@ -112,3 +112,31 @@ module tongue(width, length) {
   translate([0, 0, 0])
     cylinder($fn=40, h=tongue_length, d=tongue_hole_diam, center=true);
 }
+
+
+module triangluar_solid(Q, height, length) {  // Q = base angle of isosceles triangle
+  base = 2*height/tan(Q);
+  linear_extrude(height = length, center = true, convexity = 10)
+    polygon(points = [
+              [0, 0],
+              [base/2, height],
+              [base, 0]
+            ]);
+}
+
+
+  //Battery retainer
+module battery_retainer(side) {  // side = "left"|"right"
+  _sign = side == "left" ? 1 : -1;
+
+  difference() {
+    union() {
+      cube([battery_retainer_wall_thickness, battery_thickness, battery_length + battery_retainer_tip_base], center = true);
+      translate([_sign*battery_retainer_wall_thickness/2, 0, -(battery_length - battery_retainer_tip_base)/2])
+        rotate([_sign*90, 90, 0])
+          triangluar_solid(battery_retainer_tip_angle, battery_retainer_tip_height, battery_thickness);
+    }
+      translate([0, (battery_thickness - battery_retainer_wall_gap)/2, -battery_length/6 - shim])
+        cube([9*battery_retainer_wall_thickness, battery_retainer_wall_gap, battery_length*2/3 + battery_retainer_tip_base], center = true);
+  }
+}

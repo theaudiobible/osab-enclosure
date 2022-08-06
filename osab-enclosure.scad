@@ -16,15 +16,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 include <vars.scad>;
 include <shell.scad>;
 include <buttons.scad>;
-include <plug.scad>;
+//include <plug.scad>;
 
 
 // PCB
-translate([0, 0, ppp_offset_from_pcb_center/2]) {
-  rotate([90, 0, 0]) {
-    import("osab.stl", convexity=10);
-  }
-}
+//translate([0, 0, ppp_offset_from_pcb_center/2]) {
+//  rotate([90, 0, 0]) {
+//    import("osab.stl", convexity=10);
+//  }
+//}
 
 
 // simPCB
