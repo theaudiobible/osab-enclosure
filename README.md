@@ -10,7 +10,14 @@ The intention is to share firmware, software, schematics, PCB layout and enclosu
 This is the repository for the 3D design files for the OSAB enclosure.
 
 ### Dependencies
+#### OpenSCAD
 The 3D design tool is [OpenSCAD](http://openscad.org/)
+
+#### Font
+To install [Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil?query=stardos) on Linux:
+1. Click `Download family` at https://fonts.google.com/specimen/Stardos+Stencil?query=stardos
+2. ```sudo mkdir /usr/share/fonts/stardos-stencil```
+3. ```sudo unzip ~/Downloads/Stardos_Stencil.zip -d /usr/share/fonts/stardos-stencil```
 
 ### Licence
 This is open source hardware released under the MIT Licence - please see the LICENCE file in this directory.

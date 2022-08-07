@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 use <shell-modules.scad>;
 include <vars.scad>;
 
-%difference() {
+difference() {
   union() {
     // Shell insert
     translate([0, 0, thickness-length/2])

@@ -17,7 +17,7 @@ use <shell-modules.scad>;
 use <button-modules.scad>;
 include <vars.scad>;
 
-%union() {
+union() {
   difference() {
       shell(thickness = thickness, width = width, length = length, height = height);
 
@@ -95,10 +95,14 @@ include <vars.scad>;
       }
 
       // Logo
-      translate([width/4 + 2, length*3/4, 0])
-        rotate([180,0,0])
+      translate([-osab_x, -(height/2 + thickness), -osab_z])
+        rotate([90, 0, 0]) {
           linear_extrude(height = text_depth, center = true)
             text("OSAB", size = 8, font="Stardos Stencil:style=Regular");
+          translate([-tab_x, -tab_y, 0])
+            linear_extrude(height = text_depth, center = true)
+              text("TheAudioBible.org", size = 3, font="Stardos Stencil:style=Regular");
+        }
   }
 
   // Speaker retainer
