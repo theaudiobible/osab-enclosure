@@ -98,11 +98,11 @@ module tongue(width, length) {
       cylinder($fn=40, h=length, d=width, center=true);
       translate([0 ,0, length/2])
         rotate([0, 90, 0])
-          sphere(d=width);
+          sphere($fn=40, d=width);
     }
     translate([0, 0, length/2-(width-tongue_hole_diam)/2])
       rotate([0, 90, 0])
-        sphere(d=tongue_hole_diam);
+        sphere($fn=40, d=tongue_hole_diam);
   // Groove
   translate([0, -width/2, tongue_groove_height])
     rotate([0, 90, 0])
