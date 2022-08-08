@@ -26,11 +26,19 @@ union() {
           cylinder(h=hole_depth, d=earphone_diam, center=true);
 
       // USB-C socket hole
+      w = usb_width - usb_corner_radius;
       translate([0, -(usb_height+pcb_thickness)/2, length/2])
           union() {
-              rotate([90, 0, 0])cube([usb_width-usb_height+2*shim, hole_depth, usb_height], center=true);
-              translate([(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
-              translate([-(usb_width-usb_height+2*shim)/2, 0, 0])cylinder(h=hole_depth, d=usb_height, center=true);
+              cube([w, usb_height, hole_depth], center=true);
+              cube([usb_width, usb_height-usb_corner_radius, hole_depth], center=true);
+              translate([w/2, (usb_height-usb_corner_radius)/2, 0])
+                cylinder($fn=40, h=hole_depth, d=usb_corner_radius, center=true);
+              translate([-w/2, (usb_height-usb_corner_radius)/2, 0])
+                cylinder($fn=40, h=hole_depth, d=usb_corner_radius, center=true);
+              translate([w/2, -(usb_height-usb_corner_radius)/2, 0])
+                cylinder($fn=40, h=hole_depth, d=usb_corner_radius, center=true);
+              translate([-w/2, -(usb_height-usb_corner_radius)/2, 0])
+                cylinder($fn=40, h=hole_depth, d=usb_corner_radius, center=true);
           }
 
       // Button lock hole
