@@ -27,7 +27,6 @@ module outershell(width, length, height) {
   }
 }
 
-
 // Shell
 // width, length, height for inner dims
 module shell(width, length, height, thickness) {
@@ -54,7 +53,11 @@ module shell(width, length, height, thickness) {
       }
     }
     translate([0, 0, (length - thickness)/2])
-      outershell(width+thickness/2, thickness, height+thickness);
+      difference() {
+        outershell(width+thickness/2, thickness, height+thickness);
+        translate([0, 0, -thickness/2])
+          outershell(width, thickness, height);
+      }
   }
 }
 
