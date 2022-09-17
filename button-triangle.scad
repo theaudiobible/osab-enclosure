@@ -19,6 +19,8 @@ include <vars.scad>;
 triangular_button(triangle_button_side, triangle_button_radius, button_height);
 //triangular_space(triangle_button_side, triangle_button_radius, button_height);
 
-translate([-12 ,0 ,0])
-square_button(square_button_side, square_button_radius, button_height);
+translate([-12 ,0 ,0]) {
+  square_button(square_button_side, square_button_radius, button_height);
+  //square_space(square_button_side, square_button_radius, button_height);
+}
 

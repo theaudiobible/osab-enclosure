@@ -43,7 +43,7 @@ module triangle_with_hole(side_length, corner_radius) {
   difference() {
     triangular_button_profile(side_length + button_space + 2, corner_radius);
     translate([-0.45, 0, 0])
-      triangular_button_profile(side_length - button_space, corner_radius/2); // Core
+      triangular_button_profile(side_length - button_space/1.5, corner_radius/2); // Core
   }
 }
 
@@ -78,7 +78,7 @@ module triangular_button(side_length, corner_radius, height) {
           triangular_button_profile(side_length, corner_radius);
       translate([0.16, 0, height/2])
         linear_extrude(height=height, center=true, convexity=10, twist=0, scale=0.5)
-          triangular_button_profile(side_length+3.0, corner_radius);
+          triangular_button_profile(side_length+3, corner_radius);
     }
     translate([0, 0, -0.0001])
       triangular_space(side_length, corner_radius, height);
@@ -110,7 +110,7 @@ module square_button_cutter(side_length, corner_radius, height) {
 module square_with_hole(side_length, corner_radius) {
   difference() {
     square_button_profile(side_length + button_space + 2, corner_radius);
-    square_button_profile(side_length - button_space, corner_radius/2); // Core
+    square_button_profile(side_length - button_space/1.5, corner_radius/2); // Core
   }
 }
 
@@ -147,7 +147,7 @@ module square_button(side_length, corner_radius, height) {
           square_button_profile(side_length, corner_radius);
       translate([0, 0, height/2])
         linear_extrude(height=height, center=true, convexity=10, twist=0, scale=0.5)
-          square_button_profile(side_length+1, corner_radius);
+          square_button_profile(side_length+2, corner_radius);
     }
     translate([0, 0, -0.0001])
       square_space(side_length, corner_radius, height);
