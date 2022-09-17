@@ -24,3 +24,12 @@ translate([-12 ,0 ,0]) {
   //square_space(square_button_side, square_button_radius, button_height);
 }
 
+translate([-24 ,0 ,0]) {
+  round_button(cat_button_radius, button_height);
+  //round_space(cat_button_radius, button_height);
+}
+
+translate([-36 ,0 ,0]) {
+  round_button(vol_button_radius, button_height);
+  //round_space(vol_button_radius, button_height);
+}

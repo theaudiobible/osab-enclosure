@@ -60,7 +60,6 @@ vol_button_radius = 3;
 light_button_radius = 2;
 button_height = (height-thickness+pcb_thickness)/2 - switch_height - shim;
 button_gap = 14;
-button_shoulder = 0.5;
 button_space = 4.5;
 button_base = 1.2;
 button_shim = 2*shim;

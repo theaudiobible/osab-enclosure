@@ -159,6 +159,7 @@ module square_button(side_length, corner_radius, height) {
 module round_button_profile(radius) {
   circle(r=radius);
 }
+
 module round_button_cutter(radius, height) {
   linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
   difference() {
@@ -166,17 +167,53 @@ module round_button_cutter(radius, height) {
     round_button_profile(radius);
   }
 }
+
+module circle_with_hole(radius) {
+  difference() {
+    round_button_profile(radius + 2);
+    round_button_profile(radius - 1.8); // Core
+  }
+}
+
+module round_space(radius, height) {
+  r1 = 1.2;
+  r2 = 1.3;
+  translate([0, 0, button_shim/2])
+    linear_extrude(height=button_shim, center=true, convexity=10, twist=0, scale=1)
+      circle_with_hole(radius);
+  translate([0, 0, height/2])
+    difference() {
+      linear_extrude(height=height, center=true, convexity=10, twist=0, scale=0.5)
+        difference() {
+          circle_with_hole(radius);
+          translate([0, r1*radius, -height/2])
+            square([radius/r2, radius], center=true);
+          translate([0, -r1*radius, -height/2])
+            square([radius/r2, radius], center=true);
+          translate([r1*radius, 0, -height/2])
+            rotate([0, 0, 90])
+              square([radius/r2, radius], center=true);
+          translate([-r1*radius, 0, -height/2])
+            rotate([0, 0, 90])
+              square([radius/r2, radius], center=true);
+        }
+      translate([0, 0, (height - button_base)/2])
+        cube([10, 10, button_base], center=true);
+    }
+}
+
 module round_button(radius, height) {
-  h2 = radius + button_shoulder - switch_button_diam/2;
-  h1 = height - h2;
-  translate([0, 0, -thickness/2])
-    cylinder(r=radius, h=thickness, center=true);
-  translate([0, 0, h1/2])
-    linear_extrude(height=h1, center=true, convexity=10, twist=0, scale=1)
-      circle(r=radius+button_shoulder);
-  translate([0, 0, h1 + h2/2])
-    linear_extrude(height=h2, center=true, convexity=10, twist=0, scale=0.5)
-      circle(r=radius+button_shoulder);
+  difference() {
+    union() {
+      translate([0, 0, -thickness/2])
+        cylinder(r=radius, h=thickness, center=true);
+      translate([0, 0, height/2])
+        linear_extrude(height=height, center=true, convexity=10, twist=0, scale=0.5)
+          circle(r = radius + 1);
+    }
+    translate([0, 0, -0.0001])
+      round_space(radius, height);
+  }
 }
 
 
