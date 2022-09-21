@@ -53,35 +53,35 @@ union() {
 
       // Chap+ button cutter
         translate([center+button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side+1*shim, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + layer_height, square_button_radius, button_height+4*shim);
 
       // Chap- button cutter
         translate([center-button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side+1*shim, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + layer_height, square_button_radius, button_height+4*shim);
 
       // Book- button cutter
         translate([center, center+button_gap - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side+1*shim, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + layer_height, square_button_radius, button_height+4*shim);
 
       // Book+ button cutter
         translate([center, center-button_gap - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side+1*shim, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + layer_height, square_button_radius, button_height+4*shim);
 
       // Category button cutter
         translate([center+cat_button_x, center-cat_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(cat_button_radius+1*shim, button_height+4*shim);
+          round_button_cutter(cat_button_radius + layer_height, button_height+4*shim);
 
       // Light button cutter
         translate([center-light_button_x, center-light_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(vol_button_radius+1*shim, button_height+4*shim);
+          round_button_cutter(vol_button_radius + layer_height, button_height+4*shim);
 
       // Vol- button cutter
         translate([center-vol_button_x, center+vol_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(vol_button_radius+1*shim, button_height+4*shim);
+          round_button_cutter(vol_button_radius + layer_height, button_height+4*shim);
 
       // Vol+ button cutter
         translate([center+vol_button_x, center+vol_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(vol_button_radius+1*shim, button_height+4*shim);
+          round_button_cutter(vol_button_radius + layer_height, button_height+4*shim);
       }
 
       // Speaker holes
@@ -115,6 +115,22 @@ union() {
 
   rotate([-90, 0, 0])
   translate([-width/2, -length/3, -thickness*1.6-height/2]) {
+    // Chap+ button cutter
+      translate([center+button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
+        square_button_support(square_button_side + 8*layer_height, square_button_radius, layer_height, nozzle_diam);
+
+    // Chap- button cutter
+      translate([center-button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
+        square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
+
+    // Book- button cutter
+      translate([center, center+button_gap - ppp_offset_from_pcb_center, thickness+shim])
+        square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
+
+    // Book+ button cutter
+      translate([center, center-button_gap - ppp_offset_from_pcb_center, thickness+shim])
+        square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
+
     // Category button support
       translate([center+cat_button_x, center-cat_button_y - ppp_offset_from_pcb_center, thickness+shim])
         round_button_support(cat_button_radius + 2*layer_height, layer_height, nozzle_diam);

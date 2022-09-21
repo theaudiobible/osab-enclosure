@@ -99,12 +99,27 @@ module square_button_profile(side_length, corner_radius) {
     }
 }
 
+module square_button_rim(side_length, corner_radius, width) {
+  linear_extrude(height=width, center=true, convexity=10, twist=0, scale=1)
+  difference() {
+    square_button_profile(side_length + layer_height);
+    square_button_profile(side_length);
+  }
+}
+
+module square_button_support(side_length, corner_radius, layer_height, layer_width) {
+  if (layer_width < thickness) {
+    square_button_rim(side_length, corner_radius, layer_width);
+    square_button_support(side_length - layer_height, corner_radius - layer_height*2/5, layer_height, layer_width + layer_height);
+  } else {
+    linear_extrude(height=thickness, center=true, convexity=10, twist=0, scale=1)
+      square_button_profile(side_length, corner_radius);
+  }
+}
+
 module square_button_cutter(side_length, corner_radius, height) {
   linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
-  difference() {
-    square_button_profile(side_length+2*shim, corner_radius);
-    square_button_profile(side_length-shim, corner_radius);
-  }
+    square_button_profile(side_length, corner_radius);
 }
 
 module square_with_hole(side_length, corner_radius) {
@@ -163,7 +178,7 @@ module round_button_profile(radius) {
 module round_button_rim(radius, width) {
   linear_extrude(height=width, center=true, convexity=10, twist=0, scale=1)
   difference() {
-    round_button_profile(radius+shim);
+    round_button_profile(radius + layer_height);
     round_button_profile(radius);
   }
 }
