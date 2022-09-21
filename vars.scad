@@ -17,7 +17,9 @@ $fa=0.5; // default minimum facet angle is now 0.5
 $fs=0.5; // default minimum facet size is now 0.5 mm
 
 nozzle_diam = 0.35; // 3D printer nozzle diameter
+layer_height = 0.2; // 3D printer layer height
 
+shim = layer_height;
 thickness = 2;
 pcb_width = 50;
 pcb_edge_clearance = 1.5;
@@ -28,7 +30,6 @@ length = width*(1+sqrt(5))/2;
 pcb_length = 75;
 pcb_thickness = 1.0;
 hole_depth = 8*thickness;
-shim = 0.2;  // Set to layer height
 radius = 5;
 center = width/2;
 dimple = 1.2;
@@ -57,7 +58,6 @@ square_button_side = 5;
 square_button_radius = 2;
 cat_button_radius = 4;
 vol_button_radius = 3;
-light_button_radius = 2;
 button_height = (height-thickness+pcb_thickness)/2 - switch_height - shim;
 button_gap = 14;
 button_space = 4.5;

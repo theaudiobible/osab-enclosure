@@ -17,3 +17,7 @@ include <vars.scad>;
 
 // Square button
 square_button(square_button_side, square_button_radius, button_height);
+
+translate([-12 ,0 ,0]) {
+  round_button_support(cat_button_radius + 2*layer_height, layer_height, nozzle_diam);
+}
