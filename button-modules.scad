@@ -73,13 +73,13 @@ module triangular_space(side_length, corner_radius, height) {
           triangle_with_hole(side_length, corner_radius);
           rotate([0, 0, -30])
             translate([-1.25, side_length - 1.5, -height/2])
-              square([side_length, button_space], center=true);
+              square([side_length/tab_ratio, button_space], center=true);
           rotate([0, 0, 30])
             translate([-1.25, -side_length + 1.5, -height/2])
-              square([side_length, button_space], center=true);
+              square([side_length/tab_ratio, button_space], center=true);
           rotate([0, 0, 90])
             translate([0, side_length - 0.5, -height/2])
-              square([side_length, button_space], center=true);
+              square([side_length/tab_ratio, button_space], center=true);
         }
       translate([0, 0, (height - button_base)/2])
         cube([10, 10, button_base], center=true);
