@@ -1,5 +1,5 @@
 /*
-button-triangle.scad - Buttons for the OSAB enclosure.
+button-round.scad - Buttons for the OSAB enclosure.
 
 OSAB - the Open Source Audio Bible player.
 
@@ -15,5 +15,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 use <button-modules.scad>;
 include <vars.scad>;
 
-// Triangular button
-triangular_button(triangle_button_side, triangle_button_radius, button_height);
+// Volume/Light button
+round_button(vol_button_radius, button_height);
