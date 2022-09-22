@@ -96,14 +96,14 @@ module square_button_profile(side_length, corner_radius) {
       circle(corner_radius);
     translate([-side_length/2, side_length/2, 0])
       circle(corner_radius);
-    }
+  }
 }
 
 module square_button_rim(side_length, corner_radius, width) {
-  linear_extrude(height=width, center=true, convexity=10, twist=0, scale=1)
+  linear_extrude(height=width, center=true, convexity=10, twist=0, $fn=40, scale=1)
   difference() {
-    square_button_profile(side_length + layer_height);
-    square_button_profile(side_length);
+    square_button_profile(side_length + layer_height, corner_radius);
+    square_button_profile(side_length, corner_radius);
   }
 }
 
@@ -118,7 +118,7 @@ module square_button_support(side_length, corner_radius, layer_height, layer_wid
 }
 
 module square_button_cutter(side_length, corner_radius, height) {
-  linear_extrude(height=height, center=true, convexity=10, twist=0, scale=1)
+  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=1)
     square_button_profile(side_length, corner_radius);
 }
 
