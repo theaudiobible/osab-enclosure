@@ -154,15 +154,15 @@ module square_space(side_length, corner_radius, height) {
         difference() {
           square_with_hole(side_length, corner_radius);
           translate([0, side_length, -height/2])
-            square([side_length, button_space], center=true);
+            square([side_length/tab_ratio, button_space], center=true);
           translate([0, -side_length, -height/2])
-            square([side_length, button_space], center=true);
+            square([side_length/tab_ratio, button_space], center=true);
           translate([side_length, 0, -height/2])
             rotate([0, 0, 90])
-              square([side_length, button_space], center=true);
+              square([side_length/tab_ratio, button_space], center=true);
           translate([-side_length, 0, -height/2])
             rotate([0, 0, 90])
-              square([side_length, button_space], center=true);
+              square([side_length/tab_ratio, button_space], center=true);
         }
       translate([0, 0, (height - button_base)/2])
         cube([10, 10, button_base], center=true);

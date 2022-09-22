@@ -56,6 +56,7 @@ triangle_button_side = 6;
 triangle_button_radius = 2;
 square_button_side = 5;
 square_button_radius = 2;
+tab_ratio = 1.3;
 cat_button_radius = 4;
 vol_button_radius = 3;
 button_height = (height-thickness+pcb_thickness)/2 - switch_height - shim;
