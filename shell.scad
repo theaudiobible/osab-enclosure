@@ -115,6 +115,10 @@ union() {
 
   rotate([-90, 0, 0])
   translate([-width/2, -length/3, -thickness*1.6-height/2]) {
+    // PPP button support
+      translate([center, center - ppp_offset_from_pcb_center, thickness+shim])
+        triangular_button_support(triangle_button_side + 2*layer_height, triangle_button_radius, layer_height, nozzle_diam);
+
     // Chap+ button support
       translate([center+button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
         square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
