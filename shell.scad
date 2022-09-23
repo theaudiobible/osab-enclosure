@@ -103,13 +103,13 @@ union() {
       }
 
       // Logo
-      translate([-osab_x, -(height/2 + thickness), -osab_z])
+      translate([-osab_x, -(height/2 + 1.1*thickness), -osab_z])
         rotate([90, 0, 0]) {
           linear_extrude(height = text_depth, center = true)
             text("OSAB", size = 8, font="Stardos Stencil:style=Regular");
           translate([-tab_x, -tab_y, 0])
             linear_extrude(height = text_depth, center = true)
-              text("TheAudioBible.org", size = 3, font="Stardos Stencil:style=Regular");
+              text("TheAudioBible.org", size = 3.2, font="Cantarell:style=Bold");
         }
   }
 
@@ -117,39 +117,39 @@ union() {
   translate([-width/2, -length/3, -thickness*1.6-height/2]) {
     // PPP button support
       translate([center, center - ppp_offset_from_pcb_center, thickness+shim])
-        triangular_button_support(triangle_button_side + 2*layer_height, triangle_button_radius, layer_height, nozzle_diam);
+        triangular_button_support(triangle_button_side + layer_height, triangle_button_radius, layer_height, nozzle_diam);
 
     // Chap+ button support
       translate([center+button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Chap- button support
       translate([center-button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Book- button support
       translate([center, center+button_gap - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Book+ button support
       translate([center, center-button_gap - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + 2*layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Category button support
       translate([center+cat_button_x, center-cat_button_y - ppp_offset_from_pcb_center, thickness+shim])
-        round_button_support(cat_button_radius + 2*layer_height, layer_height, nozzle_diam);
+        round_button_support(cat_button_radius + layer_height, layer_height, nozzle_diam);
 
     // Light button support
       translate([center-light_button_x, center-light_button_y - ppp_offset_from_pcb_center, thickness+shim])
-        round_button_support(vol_button_radius + 2*layer_height, layer_height, nozzle_diam);
+        round_button_support(vol_button_radius + layer_height, layer_height, nozzle_diam);
 
     // Vol- button support
       translate([center-vol_button_x, center+vol_button_y - ppp_offset_from_pcb_center, thickness+shim])
-        round_button_support(vol_button_radius + 2*layer_height, layer_height, nozzle_diam);
+        round_button_support(vol_button_radius + layer_height, layer_height, nozzle_diam);
 
     // Vol+ button support
       translate([center+vol_button_x, center+vol_button_y - ppp_offset_from_pcb_center, thickness+shim])
-        round_button_support(vol_button_radius + 2*layer_height, layer_height, nozzle_diam);
+        round_button_support(vol_button_radius + layer_height, layer_height, nozzle_diam);
   }
 
   // Speaker retainer
