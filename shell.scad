@@ -19,11 +19,16 @@ include <vars.scad>;
 
 union() {
   difference() {
-      shell(thickness = thickness, width = width, length = length, height = height);
+      #shell(thickness = thickness, width = width, length = length, height = height);
+
+      // Light hole
+      translate([light_hole_x, -(pcb_thickness + light_height)/2, length/2])
+        linear_extrude(height=hole_depth, center=true, convexity=10, twist=0, $fn=40, scale=2)
+          circle(d=light_hole_diam);
 
       // Earphone socket hole
-      translate([18.7, -(earphone_diam+pcb_thickness)/2, length/2])
-          cylinder(h=hole_depth, d=earphone_diam, center=true);
+      translate([earhpone_hole_x, -(earphone_diam+pcb_thickness)/2, length/2])
+        cylinder(h=hole_depth, d=earphone_diam, center=true);
 
       // USB-C socket hole
       w = usb_width - usb_corner_radius;

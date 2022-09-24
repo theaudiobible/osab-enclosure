@@ -47,7 +47,7 @@ translate([-width/2, -length/3, -thickness-height/2]) {
     // Light button
     color ("white")
       translate([center-light_button_x, center-light_button_y - pppoff, thickness])
-        round_button(light_button_radius, button_height);
+        round_button(vol_button_radius, button_height);
 
     // Category button
     color ("grey")
