@@ -19,7 +19,7 @@ include <vars.scad>;
 
 union() {
   difference() {
-      #shell(thickness = thickness, width = width, length = length, height = height);
+      shell(thickness = thickness, width = width, length = length, height = height);
 
       // Light hole
       translate([light_hole_x, -(pcb_thickness + light_height)/2, length/2])
