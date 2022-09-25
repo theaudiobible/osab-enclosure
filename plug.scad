@@ -50,5 +50,5 @@ difference() {
 
   // Card slot
   translate([-(card_x_offset + 5.7), (holder_height-card_height-height/2)/2, 1.2-length/2])
-    cube([card_width*1.1, card_height*1.1, card_length*2]);
+    cube([card_width*1.2, card_height*1.2, card_length*2]);
 }
