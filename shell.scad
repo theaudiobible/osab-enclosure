@@ -26,6 +26,11 @@ union() {
         linear_extrude(height=hole_depth, center=true, convexity=10, twist=0, $fn=40, scale=2)
           circle(d=light_hole_diam);
 
+      // Charge LED hole
+      translate([charge_led_hole_x, -(pcb_thickness + charge_led_height)/2, length/2])
+        linear_extrude(height=hole_depth, center=true, convexity=10, twist=0, $fn=40, scale=2)
+          circle(d=charge_led_hole_diam);
+
       // Earphone socket hole
       translate([earhpone_hole_x, -(earphone_diam+pcb_thickness)/2, length/2])
         cylinder(h=hole_depth, d=earphone_diam, center=true);
@@ -74,19 +79,19 @@ union() {
 
       // Category button cutter
         translate([center+cat_button_x, center-cat_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(cat_button_radius + 2*layer_height, button_height+4*shim);
+          round_button_cutter(cat_button_radius + 1*layer_height, button_height+4*shim);
 
       // Light button cutter
         translate([center-light_button_x, center-light_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(vol_button_radius + 2*layer_height, button_height+4*shim);
+          round_button_cutter(vol_button_radius + 1*layer_height, button_height+4*shim);
 
       // Vol- button cutter
         translate([center-vol_button_x, center+vol_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(vol_button_radius + 2*layer_height, button_height+4*shim);
+          round_button_cutter(vol_button_radius + 1*layer_height, button_height+4*shim);
 
       // Vol+ button cutter
         translate([center+vol_button_x, center+vol_button_y - ppp_offset_from_pcb_center, thickness+shim])
-          round_button_cutter(vol_button_radius + 2*layer_height, button_height+4*shim);
+          round_button_cutter(vol_button_radius + 1*layer_height, button_height+4*shim);
       }
 
       // Speaker holes
