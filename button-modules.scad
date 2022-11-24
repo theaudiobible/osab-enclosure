@@ -247,18 +247,32 @@ module round_space(radius, height) {
     }
 }
 
-module round_button(radius, height) {
+module round_extrusion(radius, height, scale_) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=scale_)
+    circle(r = radius);
+}
+
+module round_clip(radius, height, scale_) {
   difference() {
-    union() {
-      translate([0, 0, -thickness/2])
-        cylinder(r=radius, h=thickness, center=true);
-      translate([0, 0, height/2])
-        linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=0.5)
-          circle(r = radius + 1);
-    }
-    translate([0, 0, -0.0001])
-      round_space(radius, height);
+    round_extrusion(radius, height, scale_);
+    translate([0, 0, -button_base])
+      round_extrusion(radius*3/4, height, scale_);
+      translate([0, 0, -button_base]) {
+        cube([1, 3*radius, height], center=true);
+        cube([3*radius, 1, height], center=true);
+      }
   }
+}
+
+module round_button(radius, height) {
+  translate([0, 0, -thickness*3/4])
+    cylinder(r=radius, h=thickness/2, center=true);
+  translate([0, 0, -thickness/4])
+    round_extrusion(radius, thickness/2, 0.5);
+  translate([0, 0, height/2])
+    round_extrusion(radius/2, height, 0.5);
+  translate([0, 0, height/2])
+    round_clip(radius + 1, height, 0.5);
 }
 
 
