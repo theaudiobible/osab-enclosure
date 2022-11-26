@@ -258,17 +258,17 @@ module round_clip(radius, height, scale_) {
     translate([0, 0, -button_base])
       round_extrusion(radius*3/4, height, scale_);
       translate([0, 0, -button_base]) {
-        cube([1, 3*radius, height], center=true);
-        cube([3*radius, 1, height], center=true);
+        cube([0.5, 3*radius, height], center=true);
+        cube([3*radius, 0.5, height], center=true);
       }
   }
 }
 
 module round_button(radius, height) {
-  translate([0, 0, -thickness*3/4])
-    cylinder(r=radius, h=thickness/2, center=true);
-  translate([0, 0, -thickness/4])
-    round_extrusion(radius, thickness/2, 0.5);
+  translate([0, 0, -thickness*9/8])
+    cylinder(r=radius+layer_height, h=thickness*3/4, center=true);
+  translate([0, 0, -thickness*3/8])
+    round_extrusion(radius, thickness*3/4, 0.5);
   translate([0, 0, height/2])
     round_extrusion(radius/2, height, 0.5);
   translate([0, 0, height/2])
