@@ -19,12 +19,14 @@ include <vars.scad>;
 // Triangular_button
 module triangular_button_profile(side_length, corner_radius) {
   hull() {
-    a = sqrt(3)/4*side_length;
-    translate([-a, -side_length/2, 0])
+    a = sqrt(3)/2*side_length;
+    b = side_length/2 * tan(30);
+    c = a - b;
+    translate([-b, -side_length/2, 0])
       circle(corner_radius);
-    translate([a, 0, 0])
+    translate([c, 0, 0])
       circle(corner_radius);
-    translate([-a, side_length/2, 0])
+    translate([-b, side_length/2, 0])
       circle(corner_radius);
   }
 }
