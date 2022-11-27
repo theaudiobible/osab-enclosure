@@ -73,7 +73,7 @@ module triangular_ring(side_length, corner_radius, height, thickness) {
   linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40) {
     difference() {
       triangular_button_profile(side_length, corner_radius);
-      triangular_button_profile(side_length - thickness, corner_radius);
+      triangular_button_profile(side_length - 2*thickness, corner_radius);
     }
   }
 }
@@ -90,17 +90,17 @@ module triangular_tapered_ring(side_length, corner_radius, height, thickness) {
 
 module triangular_button(side_length, corner_radius, height) {
   translate([0, 0, -thickness*3/8])
-    triangular_tapered_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+    triangular_tapered_ring(side_length + 2, corner_radius, thickness*3/4, nozzle_diam);
   translate([0, 0, -thickness*9/8])
-    triangular_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+    triangular_ring(side_length + 2, corner_radius, thickness*3/4, nozzle_diam);
   translate([0, 0, -thickness*9/8])
-    triangular_extrusion(side_length + layer_height/2, corner_radius, thickness*3/4, 1);
+    triangular_extrusion(side_length, corner_radius, thickness*3/4, 1);
   translate([0, 0, -thickness*3/8])
     triangular_extrusion(side_length, corner_radius, thickness*3/4, 0.5);
   translate([0, 0, height/2])
     triangular_extrusion(side_length/2, corner_radius, height, 0.5);
   translate([0, 0, height/2])
-    triangular_clip(side_length + 1, corner_radius, height, 0.5);
+    triangular_clip(side_length + 2, corner_radius, height, 0.5);
 }
 
 
@@ -162,7 +162,7 @@ module square_ring(side_length, corner_radius, height, thickness) {
   linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40) {
     difference() {
       square_button_profile(side_length, corner_radius);
-      square_button_profile(side_length - thickness, corner_radius);
+      square_button_profile(side_length - 2*thickness, corner_radius);
     }
   }
 }
@@ -179,17 +179,17 @@ module square_tapered_ring(side_length, corner_radius, height, thickness) {
 
 module square_button(side_length, corner_radius, height) {
   translate([0, 0, -thickness*3/8])
-    square_tapered_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+    square_tapered_ring(side_length + 2, corner_radius, thickness*3/4, nozzle_diam);
   translate([0, 0, -thickness*9/8])
-    square_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+    square_ring(side_length + 2, corner_radius, thickness*3/4, nozzle_diam);
   translate([0, 0, -thickness*9/8])
-    square_extrusion(side_length + layer_height/2, corner_radius, thickness*3/4, 1);
+    square_extrusion(side_length, corner_radius, thickness*3/4, 1);
   translate([0, 0, -thickness*3/8])
     square_extrusion(side_length, corner_radius, thickness*3/4, 0.5);
   translate([0, 0, height/2])
     square_extrusion(side_length/2, corner_radius, height, 0.5);
   translate([0, 0, height/2])
-    square_clip(side_length + 1, corner_radius, height, 0.5);
+    square_clip(side_length + 2, corner_radius, height, 0.5);
 }
 
 
@@ -266,7 +266,7 @@ module round_button(radius, height) {
     round_extrusion(radius, thickness*3/4, 0.5);
   translate([0, 0, height/2])
     round_extrusion(radius/2, height, 0.5);
-  #translate([0, 0, height/2])
+  translate([0, 0, height/2])
     round_clip(radius + 1, height, 0.5);
 }
 
