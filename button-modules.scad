@@ -54,37 +54,6 @@ module triangular_button_cutter(side_length, corner_radius, height) {
     triangular_button_profile(side_length, corner_radius);
 }
 
-module triangle_with_hole(side_length, corner_radius) {
-  difference() {
-    triangular_button_profile(side_length + button_space + 2, corner_radius);
-    translate([-0.45, 0, 0])
-      triangular_button_profile(side_length - button_space/1.5, corner_radius/2); // Core
-  }
-}
-
-module triangular_space(side_length, corner_radius, height) {
-  translate([0, 0, button_shim/2])
-    linear_extrude(height=button_shim, center=true, convexity=10, twist=0, $fn=40, scale=1)
-      triangle_with_hole(side_length, corner_radius);
-  translate([0, 0, height/2])
-    difference() {
-      linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=0.5)
-        difference() {
-          triangle_with_hole(side_length, corner_radius);
-          rotate([0, 0, -30])
-            translate([-1.25, side_length - 1.5, -height/2])
-              square([side_length/tab_ratio, button_space], center=true);
-          rotate([0, 0, 30])
-            translate([-1.25, -side_length + 1.5, -height/2])
-              square([side_length/tab_ratio, button_space], center=true);
-          rotate([0, 0, 90])
-            translate([0, side_length - 0.5, -height/2])
-              square([side_length/tab_ratio, button_space], center=true);
-        }
-      translate([0, 0, (height - button_base)/2])
-        cube([10, 10, button_base], center=true);
-    }
-}
 module triangular_button(side_length, corner_radius, height) {
   difference() {
     union() {
@@ -137,51 +106,55 @@ module square_button_cutter(side_length, corner_radius, height) {
     square_button_profile(side_length, corner_radius);
 }
 
-module square_with_hole(side_length, corner_radius) {
+module square_extrusion(side_length, corner_radius, height, scale_) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=scale_)
+    square_button_profile(side_length, corner_radius);
+}
+
+module square_clip(side_length, corner_radius, height, scale_) {
   difference() {
-    square_button_profile(side_length + button_space + 2, corner_radius);
-    square_button_profile(side_length - button_space/1.5, corner_radius/2); // Core
+    square_extrusion(side_length, corner_radius, height, scale_);
+    translate([0, 0, -button_base])
+      square_extrusion(side_length*3/4, corner_radius, height, scale_);
+      translate([0, 0, -button_base]) {
+        cube([0.5, 3*side_length, height], center=true);
+        cube([3*side_length, 0.5, height], center=true);
+      }
   }
 }
 
-module square_space(side_length, corner_radius, height) {
-  translate([0, 0, button_shim/2])
-    linear_extrude(height=button_shim, center=true, convexity=10, twist=0, $fn=40, scale=1)
-      square_with_hole(side_length, corner_radius);
-  translate([0, 0, height/2])
+module square_ring(side_length, corner_radius, height, thickness) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40) {
     difference() {
-      linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=0.5)
-        difference() {
-          square_with_hole(side_length, corner_radius);
-          translate([0, side_length, -height/2])
-            square([side_length/tab_ratio, button_space], center=true);
-          translate([0, -side_length, -height/2])
-            square([side_length/tab_ratio, button_space], center=true);
-          translate([side_length, 0, -height/2])
-            rotate([0, 0, 90])
-              square([side_length/tab_ratio, button_space], center=true);
-          translate([-side_length, 0, -height/2])
-            rotate([0, 0, 90])
-              square([side_length/tab_ratio, button_space], center=true);
-        }
-      translate([0, 0, (height - button_base)/2])
-        cube([10, 10, button_base], center=true);
+      square_button_profile(side_length, corner_radius);
+      square_button_profile(side_length - thickness, corner_radius);
     }
+  }
+}
+
+module square_tapered_ring(side_length, corner_radius, height, thickness) {
+  difference() {
+    square_extrusion(side_length, corner_radius, height, 1);
+    translate([0, 0, -layer_height])
+      square_extrusion(side_length - thickness/2, corner_radius, height, 0.7);
+    translate([0, 0, (height - 2*layer_height)/2])
+      square_extrusion(2*side_length, corner_radius, 2*layer_height + 0.01, 1);
+  }
 }
 
 module square_button(side_length, corner_radius, height) {
-  difference() {
-    union() {
-      translate([0, 0, -thickness/2])
-        linear_extrude(height=thickness, center=true, convexity=10, twist=0, $fn=40, scale=1)
-          square_button_profile(side_length, corner_radius);
-      translate([0, 0, height/2])
-        linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=0.5)
-          square_button_profile(side_length+2, corner_radius);
-    }
-    translate([0, 0, -0.0001])
-      square_space(side_length, corner_radius, height);
-  }
+  translate([0, 0, -thickness*3/8])
+    square_tapered_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+  translate([0, 0, -thickness*9/8])
+    square_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+  translate([0, 0, -thickness*9/8])
+    square_extrusion(side_length + layer_height/2, corner_radius, thickness*3/4, 1);
+  translate([0, 0, -thickness*3/8])
+    square_extrusion(side_length, corner_radius, thickness*3/4, 0.5);
+  translate([0, 0, height/2])
+    square_extrusion(side_length/2, corner_radius, height, 0.5);
+  translate([0, 0, height/2])
+    square_clip(side_length + 1, corner_radius, height, 0.5);
 }
 
 
@@ -211,40 +184,6 @@ module round_button_support(radius, layer_height, layer_width) {
 module round_button_cutter(radius, width) {
   linear_extrude(height=width, center=true, convexity=10, twist=0, $fn=40, scale=1)
     round_button_profile(radius);
-}
-
-module circle_with_hole(radius) {
-  difference() {
-    round_button_profile(radius + 2);
-    round_button_profile(radius - 1.8); // Core
-  }
-}
-
-module round_space(radius, height) {
-  r1 = 1.2;
-  r2 = 1.3;
-  translate([0, 0, button_shim/2])
-    linear_extrude(height=button_shim, center=true, convexity=10, twist=0, $fn=40, scale=1)
-      circle_with_hole(radius);
-  translate([0, 0, height/2])
-    difference() {
-      linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=0.5)
-        difference() {
-          circle_with_hole(radius);
-          translate([0, r1*radius, -height/2])
-            square([radius/r2, radius], center=true);
-          translate([0, -r1*radius, -height/2])
-            square([radius/r2, radius], center=true);
-          translate([r1*radius, 0, -height/2])
-            rotate([0, 0, 90])
-              square([radius/r2, radius], center=true);
-          translate([-r1*radius, 0, -height/2])
-            rotate([0, 0, 90])
-              square([radius/r2, radius], center=true);
-        }
-      translate([0, 0, (height - button_base)/2])
-        cube([10, 10, button_base], center=true);
-    }
 }
 
 module round_extrusion(radius, height, scale_) {
@@ -292,7 +231,7 @@ module round_button(radius, height) {
     round_extrusion(radius, thickness*3/4, 0.5);
   translate([0, 0, height/2])
     round_extrusion(radius/2, height, 0.5);
-  translate([0, 0, height/2])
+  #translate([0, 0, height/2])
     round_clip(radius + 1, height, 0.5);
 }
 
