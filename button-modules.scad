@@ -15,8 +15,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 include <vars.scad>;
 
-module cf(height = 1, scale = 1)
- linear_extrude(height, scale = scale, center = true, $fn = 100) children();
 
 // Triangular_button
 module triangular_button_profile(side_length, corner_radius) {
@@ -54,20 +52,57 @@ module triangular_button_cutter(side_length, corner_radius, height) {
     triangular_button_profile(side_length, corner_radius);
 }
 
-module triangular_button(side_length, corner_radius, height) {
+module triangular_extrusion(side_length, corner_radius, height, scale_) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=scale_)
+    triangular_button_profile(side_length, corner_radius);
+}
+
+module triangular_clip(side_length, corner_radius, height, scale_) {
   difference() {
-    union() {
-      translate([0, 0, -thickness/2])
-        linear_extrude(height=thickness, center=true, convexity=10, twist=0, $fn=40, scale=1)
-          triangular_button_profile(side_length, corner_radius);
-      translate([0.16, 0, height/2])
-        linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale=0.5)
-          triangular_button_profile(side_length+3, corner_radius);
-    }
-    translate([0, 0, -0.0001])
-      triangular_space(side_length, corner_radius, height);
+    triangular_extrusion(side_length, corner_radius, height, scale_);
+    translate([0, 0, -button_base])
+      triangular_extrusion(side_length*3/4, corner_radius, height, scale_);
+      translate([0, 0, -button_base]) {
+        cube([0.5, 3*side_length, height], center=true);
+        cube([3*side_length, 0.5, height], center=true);
+      }
   }
 }
+
+module triangular_ring(side_length, corner_radius, height, thickness) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40) {
+    difference() {
+      triangular_button_profile(side_length, corner_radius);
+      triangular_button_profile(side_length - thickness, corner_radius);
+    }
+  }
+}
+
+module triangular_tapered_ring(side_length, corner_radius, height, thickness) {
+  difference() {
+    triangular_extrusion(side_length, corner_radius, height, 1);
+    translate([0, 0, -layer_height])
+      triangular_extrusion(side_length - thickness/2, corner_radius, height, 0.7);
+    translate([0, 0, (height - 2*layer_height)/2])
+      triangular_extrusion(2*side_length, corner_radius, 2*layer_height + 0.01, 1);
+  }
+}
+
+module triangular_button(side_length, corner_radius, height) {
+  translate([0, 0, -thickness*3/8])
+    triangular_tapered_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+  translate([0, 0, -thickness*9/8])
+    triangular_ring(side_length + 1, corner_radius, thickness*3/4, nozzle_diam);
+  translate([0, 0, -thickness*9/8])
+    triangular_extrusion(side_length + layer_height/2, corner_radius, thickness*3/4, 1);
+  translate([0, 0, -thickness*3/8])
+    triangular_extrusion(side_length, corner_radius, thickness*3/4, 0.5);
+  translate([0, 0, height/2])
+    triangular_extrusion(side_length/2, corner_radius, height, 0.5);
+  translate([0, 0, height/2])
+    triangular_clip(side_length + 1, corner_radius, height, 0.5);
+}
+
 
 // Square button
 module square_button_profile(side_length, corner_radius) {
