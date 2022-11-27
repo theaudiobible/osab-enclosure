@@ -264,9 +264,30 @@ module round_clip(radius, height, scale_) {
   }
 }
 
+module round_ring(radius, height, thickness) {
+  difference() {
+    cylinder(r=radius, h=height, center=true);
+    cylinder(r=radius - thickness, h=height + 1, center=true);
+  }
+}
+
+module round_tapered_ring(radius, height, thickness) {
+  difference() {
+    cylinder(r=radius, h=height, center=true);
+    translate([0, 0, -layer_height])
+      round_extrusion(radius - thickness/2, height, 0.7);
+    translate([0, 0, (height - 2*layer_height)/2])
+      cylinder(r=2*radius, h=2*layer_height + 0.01, center=true);
+  }
+}
+
 module round_button(radius, height) {
+  translate([0, 0, -thickness*3/8])
+    round_tapered_ring(radius + 1, thickness*3/4, nozzle_diam);
   translate([0, 0, -thickness*9/8])
-    cylinder(r=radius+layer_height, h=thickness*3/4, center=true);
+    round_ring(radius + 1, thickness*3/4, nozzle_diam);
+  translate([0, 0, -thickness*9/8])
+    cylinder(r=radius + layer_height/2, h=thickness*3/4, center=true);
   translate([0, 0, -thickness*3/8])
     round_extrusion(radius, thickness*3/4, 0.5);
   translate([0, 0, height/2])
