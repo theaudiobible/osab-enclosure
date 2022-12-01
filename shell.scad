@@ -58,8 +58,11 @@ union() {
       rotate([-90, 0, 0])
       translate([-width/2, -length/3, -thickness-height/2]) {
       // PPP button cutter
-        translate([center, center - ppp_offset_from_pcb_center, thickness+shim])
-            triangular_button_cutter(triangle_button_side + 2*layer_height, triangle_button_radius, button_height+4*shim);
+        a = sqrt(3)/2*triangle_button_side;
+        b = triangle_button_side/2 * tan(30);
+        d = b - triangle_button_side/2;
+        translate([center + d, center - ppp_offset_from_pcb_center, thickness+shim])
+          triangular_button_cutter(triangle_button_side + 2*layer_height, triangle_button_radius, button_height+4*shim);
 
       // Chap+ button cutter
         translate([center+button_gap, center - ppp_offset_from_pcb_center, thickness+shim])

@@ -72,9 +72,9 @@ module triangular_clip(side_length, corner_radius, height, scale_) {
 }
 
 module triangular_ring(side_length, corner_radius, height, thickness) {
-  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40) {
+  linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40, scale = 1) {
     difference() {
-      triangular_button_profile(side_length, corner_radius);
+      triangular_button_profile(side_length + 3*nozzle_diam, corner_radius);
       triangular_button_profile(side_length - 2*thickness, corner_radius);
     }
   }
@@ -96,9 +96,9 @@ module triangular_button(side_length, corner_radius, height) {
   translate([0, 0, -thickness*9/8])
     triangular_ring(side_length + 2, corner_radius, thickness*3/4, nozzle_diam);
   translate([0, 0, -thickness*9/8])
-    triangular_extrusion(side_length, corner_radius, thickness*3/4, 1);
+    triangular_extrusion(side_length - nozzle_diam, corner_radius, thickness*3/4, 1);
   translate([0, 0, -thickness*3/8])
-    triangular_extrusion(side_length, corner_radius, thickness*3/4, 0.5);
+    triangular_extrusion(side_length - nozzle_diam, corner_radius, thickness*3/4, 0.5);
   translate([0, 0, height/2])
     triangular_extrusion(side_length/2, corner_radius, height, 0.5);
   translate([0, 0, height/2])
@@ -163,7 +163,7 @@ module square_clip(side_length, corner_radius, height, scale_) {
 module square_ring(side_length, corner_radius, height, thickness) {
   linear_extrude(height=height, center=true, convexity=10, twist=0, $fn=40) {
     difference() {
-      square_button_profile(side_length, corner_radius);
+      square_button_profile(side_length + 3*nozzle_diam, corner_radius);
       square_button_profile(side_length - 2*thickness, corner_radius);
     }
   }
@@ -180,6 +180,7 @@ module square_tapered_ring(side_length, corner_radius, height, thickness) {
 }
 
 module square_button(side_length, corner_radius, height) {
+  side_length = side_length - nozzle_diam;
   translate([0, 0, -thickness*3/8])
     square_tapered_ring(side_length + 2, corner_radius, thickness*3/4, nozzle_diam);
   translate([0, 0, -thickness*9/8])
@@ -242,7 +243,7 @@ module round_clip(radius, height, scale_) {
 
 module round_ring(radius, height, thickness) {
   difference() {
-    cylinder(r=radius, h=height, center=true);
+    cylinder(r=radius + nozzle_diam, h=height, center=true);
     cylinder(r=radius - thickness, h=height + 1, center=true);
   }
 }
