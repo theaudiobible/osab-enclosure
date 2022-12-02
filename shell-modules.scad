@@ -109,11 +109,10 @@ module tongue(width, length) {
   // Groove
   translate([0, -width/2, tongue_groove_height])
     rotate([0, 90, 0])
-      groove(1.1*groove_diam, groove_width);
+      groove(1.1*groove_diam, groove_width*2);
   }
   // Tongue cavity
-  translate([0, 0, 0])
-    cylinder($fn=40, h=tongue_length, d=tongue_hole_diam, center=true);
+  cylinder($fn=40, h=tongue_length, d=tongue_hole_diam, center=true);
 }
 
 

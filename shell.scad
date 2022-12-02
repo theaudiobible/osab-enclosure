@@ -60,7 +60,7 @@ union() {
       // PPP button cutter
         a = sqrt(3)/2*triangle_button_side;
         b = triangle_button_side/2 * tan(30);
-        d = b - triangle_button_side/2;
+        d = b - a/2;
         translate([center + d, center - ppp_offset_from_pcb_center, thickness+shim])
           triangular_button_cutter(triangle_button_side + 2*layer_height, triangle_button_radius, button_height+4*shim);
 
@@ -129,7 +129,10 @@ union() {
   rotate([-90, 0, 0])
   translate([-width/2, -length/3, -thickness*1.6-height/2]) {
     // PPP button support
-      translate([center, center - ppp_offset_from_pcb_center, thickness+shim])
+      a = sqrt(3)/2*triangle_button_side;
+      b = triangle_button_side/2 * tan(30);
+      d = b - a/2;
+      translate([center + d, center - ppp_offset_from_pcb_center, thickness+shim])
         triangular_button_support(triangle_button_side + layer_height, triangle_button_radius, layer_height, nozzle_diam);
 
     // Chap+ button support
