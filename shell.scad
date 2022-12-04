@@ -66,19 +66,19 @@ union() {
 
       // Chap+ button cutter
         translate([center+button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side + 2*layer_height, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + 1*layer_height, square_button_radius, button_height+4*shim);
 
       // Chap- button cutter
         translate([center-button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side + 2*layer_height, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + 1*layer_height, square_button_radius, button_height+4*shim);
 
       // Book- button cutter
         translate([center, center+button_gap - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side + 2*layer_height, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + 1*layer_height, square_button_radius, button_height+4*shim);
 
       // Book+ button cutter
         translate([center, center-button_gap - ppp_offset_from_pcb_center, thickness+shim])
-          square_button_cutter(square_button_side + 2*layer_height, square_button_radius, button_height+4*shim);
+          square_button_cutter(square_button_side + 1*layer_height, square_button_radius, button_height+4*shim);
 
       // Category button cutter
         translate([center+cat_button_x, center-cat_button_y - ppp_offset_from_pcb_center, thickness+shim])
@@ -137,19 +137,19 @@ union() {
 
     // Chap+ button support
       translate([center+button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + 0*layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Chap- button support
       translate([center-button_gap, center - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + 0*layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Book- button support
       translate([center, center+button_gap - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + 0*layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Book+ button support
       translate([center, center-button_gap - ppp_offset_from_pcb_center, thickness+shim])
-        square_button_support(square_button_side + layer_height, square_button_radius, layer_height, nozzle_diam);
+        square_button_support(square_button_side + 0*layer_height, square_button_radius, layer_height, nozzle_diam);
 
     // Category button support
       translate([center+cat_button_x, center-cat_button_y - ppp_offset_from_pcb_center, thickness+shim])
