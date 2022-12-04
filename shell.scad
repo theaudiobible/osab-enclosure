@@ -37,7 +37,7 @@ union() {
 
       // USB-C socket hole
       w = usb_width - usb_corner_radius;
-      translate([0, -(usb_height+pcb_thickness)/2, length/2])
+      translate([0, -(usb_height+pcb_thickness-shim)/2, length/2])
           union() {
               cube([w, usb_height, hole_depth], center=true);
               cube([usb_width, usb_height-usb_corner_radius, hole_depth], center=true);
