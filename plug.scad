@@ -19,16 +19,16 @@ difference() {
   union() {
     // Shell insert
     translate([0, 0, thickness-length/2])
-      difference() {
+      //difference() {
         outershell(width, 2*thickness, height);
         //translate([0, 0, -thickness])
         //  outershell(width-2*thickness, 2*thickness, height-2*thickness);
-      }
+      //}
     // Speaker retainer
     translate([0, (height-thickness)/2, -(length+thickness)/4])
       rotate([90, 0, 0])
         difference() {
-          speaker_retainer();
+          speaker_retainer(plug = true);
           translate([0, thickness-2*height, 0])
             cube([width, height, height], center=true);
         }

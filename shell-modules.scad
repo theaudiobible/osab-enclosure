@@ -62,8 +62,18 @@ module shell(width, length, height, thickness) {
 }
 
 
+module quarter_cylinder(diameter, height) {
+  difference() {
+    cylinder(h=height, d=diameter, center=true);
+    translate([diameter/2, 0, 0])
+      cube([diameter, 2*diameter, 2*height], center=true);
+    translate([0, diameter/2, 0])
+      cube([2*diameter, diameter, 2*height], center=true);
+  }
+}
+
 // Speaker retainer
-module speaker_retainer() {
+module speaker_retainer(plug) {
   difference() {
     union() {
       translate([0, 0, (speaker_bot_ht-thickness)/2])
@@ -75,6 +85,10 @@ module speaker_retainer() {
         difference() {
           cylinder(h=thickness, d=speaker_bot_diam+2*thickness, center=true);
           cylinder(h=thickness+shim, d=speaker_mid_diam, center=true);
+          if (plug) {
+            rotate([0, 0, 45])
+              quarter_cylinder(speaker_mid_diam + (speaker_bot_diam - speaker_mid_diam)/2, 2*thickness);
+          }
         }
     }
     translate([0, (speaker_bot_diam+2*thickness)/4, 0])

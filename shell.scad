@@ -171,7 +171,7 @@ union() {
   // Speaker retainer
   translate([0, (height - thickness)/2, -(length + thickness)/4])
     rotate([-90, 0, 180])
-      speaker_retainer();
+      speaker_retainer(plug = false);
 
   // Anti-groove - left
   translate([(width/2 - groove_diam), anti_groove_dy, tongue_groove_height + groove_diam/2 + 2*thickness - length/2 + tongue_dy/2])
